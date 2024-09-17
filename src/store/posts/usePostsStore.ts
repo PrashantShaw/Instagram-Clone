@@ -1,9 +1,10 @@
-import { Comment, Post, Like } from "@prisma/client";
+import { Comment, Post, Like, User } from "@prisma/client";
 import { create } from "zustand";
 
-type InstaPost = Post & {
+export type InstaPost = Post & {
   comments: Comment[];
   likes: Like[];
+  creator: User;
 };
 
 type PostsStoreState = {

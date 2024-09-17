@@ -38,7 +38,6 @@ export const createFeed = async (prevState: unknown, formData: FormData) => {
   const data = result.data;
   const imagePath = await createImage(data.image);
 
-  //   TODO: create user first in order to create a feed
   try {
     const createdFeed = await db.post.create({
       data: {
