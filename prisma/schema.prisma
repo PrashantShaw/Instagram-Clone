@@ -11,17 +11,25 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  username  String  @unique
-  firstName String
-  lastName  String?
-  posts     Post[]
+  id         Int     @id @default(autoincrement())
+  username   String  @unique
+  email      String  @unique // Add email for better user identification
+  password   String
+  firstName  String?
+  lastName   String?
+  bio        String? // Optional: Add bio for user profile
+  profilePic String? // Optional: Profile picture URL
+
+  posts    Post[]
+  likes    Like[] // Add this relation to track user's likes
+  comments Comment[] // Add this relation to track user's comments
 }
 
 model Post {
   id        Int       @id @default(autoincrement())
   imagePath String
   content   String?
+  status    String    @default("active") // Optional: Add status for soft deletes/archived posts
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   likes     Like[]
@@ -36,6 +44,9 @@ model Like {
   postId Int
 
   post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, postId]) // Ensure user can't like the same post multiple times
 }
 
 model Comment {
@@ -47,4 +58,5 @@ model Comment {
   updatedAt DateTime @updatedAt
 
   post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
