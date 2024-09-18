@@ -4,6 +4,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getCreatedTimeAgo } from "@/lib/utils";
 import { Ellipsis } from "lucide-react";
 import Image from "next/image";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import clsx from "clsx";
+import { LikeButton } from "./LikeButton";
 
 // TODO: apply font: apple-system
 export type PostProps = {
@@ -12,6 +22,9 @@ export type PostProps = {
 const PostItem = ({ post }: PostProps) => {
   const avatarFallbackText = post.creator.username[0].toUpperCase();
   const createdTimeAgo = getCreatedTimeAgo(post.createdAt);
+  const loggedInUserId = 1;
+  const isLiked = post.likes.some((like) => like.userId === loggedInUserId);
+  const postId = post.id;
   return (
     <div className="max-w-[29.375rem] border-b text-sm w-full py-2">
       {/* header */}
@@ -28,23 +41,47 @@ const PostItem = ({ post }: PostProps) => {
             <span className="text-gray-500">•</span>
             <p className="text-gray-500">{createdTimeAgo}</p>
             <span className="text-gray-500">•</span>
-            <p className="text-[#319cff] font-semibold cursor-pointer">
+            <p className="text-instaBlueBtn hover:text-instaBlueBtnHover font-semibold cursor-pointer">
               Follow
             </p>
           </div>
         </div>
         <div className="ml-auto">
-          <Ellipsis className="cursor-pointer" size={20} />
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <button>
+                <Ellipsis size={20} />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
+              {/* <DropdownMenuSeparator /> */}
+              <DropdownMenuItem>Edit</DropdownMenuItem>
+              <DropdownMenuItem className="font-semibold hover:!text-red-800 text-red-600">
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       {/* image */}
-      <div className="flex">
+      <div className="flex border rounded">
         <Image
           src={post.imagePath}
           alt="Post Image"
           width={5000}
           height={5000}
         />
+      </div>
+      {/* content */}
+      <div className="py-3">
+        <div className="flex items-center gap-3">
+          <LikeButton
+            isLiked={isLiked}
+            userId={loggedInUserId}
+            postId={postId}
+          />
+        </div>
       </div>
     </div>
   );
