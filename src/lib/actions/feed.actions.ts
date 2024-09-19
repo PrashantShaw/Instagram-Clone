@@ -26,9 +26,6 @@ export const createImage = async (image: File): Promise<string> => {
 export const createFeed = async (prevState: unknown, formData: FormData) => {
   const parsedFormData = Object.fromEntries(formData.entries());
   const result = feedSchemaZ.safeParse(parsedFormData);
-  //   console.log("formData ::", formData);
-  //   console.log("parsedFormData ::", parsedFormData);
-  //   console.log("result ::", result);
 
   if (result.success === false) {
     const fieldErrors = result.error.formErrors.fieldErrors;
@@ -80,7 +77,7 @@ export const updateLike = async (
         },
       });
     }
-
+    console.log("Operation : ", operation, "Successful, Res: ", res);
     return {
       success: true,
       data: res,
