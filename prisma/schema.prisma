@@ -35,7 +35,7 @@ model Post {
   likes     Like[]
   comments  Comment[]
   creatorId Int
-  creator   User      @relation(fields: [creatorId], references: [id])
+  creator   User      @relation(fields: [creatorId], references: [id], onDelete: Cascade)
 }
 
 model Like {
@@ -43,8 +43,8 @@ model Like {
   userId Int
   postId Int
 
-  post Post @relation(fields: [postId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, postId]) // Ensure user can't like the same post multiple times
 }
@@ -57,6 +57,6 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  post Post @relation(fields: [postId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

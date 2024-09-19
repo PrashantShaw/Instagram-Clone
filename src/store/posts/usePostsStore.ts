@@ -1,4 +1,4 @@
-import { updateLike } from "@/lib/actions/feed.actions";
+import { deletePost, updateLike } from "@/lib/helpers/updaters";
 import { Comment, Post, Like, User } from "@prisma/client";
 import { create } from "zustand";
 
@@ -15,6 +15,7 @@ type PostsStoreState = {
 type PostsStoreActions = {
   setPosts: (posts: PostsStoreState["posts"]) => void;
   addPost: (post: InstaPost) => void;
+  deletePost: (postId: number) => Promise<void>;
   addLikePost: (postId: number, userId: number) => Promise<void>;
   removeLikePost: (postId: number, userId: number) => Promise<void>;
 };
@@ -38,6 +39,7 @@ export const usePostsStore = create<PostsStore>()((set) => ({
   posts: [],
   setPosts: (posts) => set((state) => ({ posts })),
   addPost: (post) => set((state) => ({ posts: [...state.posts, post] })),
+  deletePost: (postId) => deletePostAction(postId, set),
   addLikePost: (postId, userId) => addLikePostAction(postId, userId, set),
   removeLikePost: (postId, userId) => removeLikePostAction(postId, userId, set),
 }));
@@ -125,5 +127,40 @@ const removeLikePostAction = async (
         return post;
       }),
     }));
+  }
+};
+
+const deletePostAction = async (postId: number, set: SetPostStore) => {
+  let deletedPost: InstaPost;
+  let deletedIdx: number;
+
+  // 1. optimistic update
+  set((state) => {
+    const optimisticPosts = state.posts.filter((post, idx) => {
+      if (post.id === postId) {
+        deletedPost = post;
+        deletedIdx = idx;
+        return false;
+      }
+      return true;
+    });
+    return {
+      posts: optimisticPosts,
+    };
+  });
+  // 2. db update
+  const result = await deletePost(postId, deletedPost!.imagePath);
+  // 3. revert optimistic update if db update fails
+  if (result.success === false) {
+    set(({ posts }) => {
+      const revertedPosts = [
+        ...posts.slice(0, deletedIdx),
+        deletedPost,
+        ...posts.slice(deletedIdx),
+      ];
+      return {
+        posts: revertedPosts,
+      };
+    });
   }
 };

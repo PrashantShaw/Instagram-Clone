@@ -2,18 +2,9 @@ import { InstaPost } from "@/store/posts/usePostsStore";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getCreatedTimeAgo } from "@/lib/utils";
-import { Ellipsis } from "lucide-react";
 import Image from "next/image";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import clsx from "clsx";
 import { LikeButton } from "./LikeButton";
+import PostItemDropdownMenu from "./PostItemDropdownMenu";
 
 // TODO: apply font: apple-system
 export type PostProps = {
@@ -47,21 +38,7 @@ const PostItem = ({ post }: PostProps) => {
           </div>
         </div>
         <div className="ml-auto">
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <button>
-                <Ellipsis size={20} />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-              {/* <DropdownMenuSeparator /> */}
-              <DropdownMenuItem>Edit</DropdownMenuItem>
-              <DropdownMenuItem className="font-semibold hover:!text-red-800 text-red-600">
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <PostItemDropdownMenu postId={postId} />
         </div>
       </div>
       {/* image */}
