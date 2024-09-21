@@ -5,6 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function sleep(ms = 2000) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export function getCreatedTimeAgo(createdAt: Date) {
   const currentTimestamp = Date.now();
   const createdTimestamp = new Date(createdAt).getTime();

@@ -5,6 +5,7 @@ import { getCreatedTimeAgo } from "@/lib/utils";
 import Image from "next/image";
 import { LikeButton } from "./LikeButton";
 import PostItemDropdownMenu from "./PostItemDropdownMenu";
+import FollowButton from "@/components/common/FollowButton";
 
 // TODO: apply font: apple-system
 export type PostProps = {
@@ -32,9 +33,7 @@ const PostItem = ({ post }: PostProps) => {
             <span className="text-gray-500">•</span>
             <p className="text-gray-500">{createdTimeAgo}</p>
             <span className="text-gray-500">•</span>
-            <p className="text-instaBlueBtn hover:text-instaBlueBtnHover font-semibold cursor-pointer">
-              Follow
-            </p>
+            <FollowButton />
           </div>
         </div>
         <div className="ml-auto">

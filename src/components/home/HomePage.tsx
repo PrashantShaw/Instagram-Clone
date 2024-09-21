@@ -1,6 +1,8 @@
 import React, { Suspense } from "react";
 import Posts from "./Posts";
+import Aside from "./Aside";
 
+// TODO: add atleast-3 skeleton shimmers for posts laoding fallback so that layout will not shift becuase of scrollbar when posts loads.
 const HomePage = () => {
   return (
     <div className="flex gap-[4rem]">
@@ -8,23 +10,18 @@ const HomePage = () => {
       <Suspense fallback={<PostsFalbback />}>
         <Posts />
       </Suspense>
-      {/* right bar */}
-      <div className="flex-1 pt-10">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, sunt iure
-        iste quae tenetur reprehenderit incidunt ipsum accusamus nihil veniam!
-        Provident quia consequuntur laudantium nostrum temporibus reprehenderit
-        culpa numquam quibusdam eius. Corporis eos non natus blanditiis eius
-        aliquam deleniti quisquam quaerat soluta voluptatem! Fuga sit, illum
-        optio in voluptatum ex?
-      </div>
+      {/* right aside */}
+      <Aside />
     </div>
   );
 };
 
 const PostsFalbback = () => (
-  <p className="text-center px-2 py-4 text-gray-500 font-semibold text-2xl">
-    Loading Posts ..
-  </p>
+  <div className="flex-grow max-w-[40rem] pt-8 flex flex-col items-center">
+    <p className="text-center px-2 py-4 text-gray-500 font-semibold text-2xl bg-gray-400">
+      Loading Posts ..
+    </p>
+  </div>
 );
 
 export default HomePage;

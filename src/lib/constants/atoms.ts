@@ -32,3 +32,69 @@ export const NAV_LINKS = [
     icon: Settings,
   },
 ];
+
+export const SUGGESTED_FOR_YOU_DATA = [
+  {
+    username: "soulful_96cancerian",
+    followedBy: "kankana.banerjee",
+  },
+  {
+    username: "vaishali_0499",
+    followedBy: "shawravi200",
+  },
+  {
+    username: "smranshaw258",
+    followedBy: "shawravi200",
+  },
+  {
+    username: "the_ocean_ruler",
+    followedBy: "aditya250795",
+  },
+  {
+    username: "sreyadey05",
+    followedBy: "shawravi200",
+  },
+];
+
+export const HOME_ASIDE_FOOTER_LINKS = [
+  {
+    label: "About",
+    href: "/",
+  },
+  {
+    label: "Help",
+    href: "/",
+  },
+  {
+    label: "Press",
+    href: "/",
+  },
+  {
+    label: "API",
+    href: "/",
+  },
+  {
+    label: "Jobs",
+    href: "/",
+  },
+  {
+    label: "Privacy",
+    href: "/",
+  },
+  {
+    label: "Terms",
+    href: "/",
+  },
+  {
+    label: "Locations",
+    href: "/",
+  },
+  {
+    label: "Language",
+    href: "/",
+  },
+  {
+    label: "Meta Verified",
+    href: "/",
+  },
+];
