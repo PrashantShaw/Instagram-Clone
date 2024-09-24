@@ -50,3 +50,49 @@ export const createFeed = async (prevState: unknown, formData: FormData) => {
   }
   redirect("/");
 };
+
+const CommentSchemaZ = z.object({
+  comment: z.string().min(1, { message: "Can't put empty comment!" }),
+  userId: z.coerce.number().min(1, { message: "User Id is missing!" }),
+  postId: z.coerce.number().min(1, { message: "Post Id is missing!" }),
+});
+export const addComment = async (formData: FormData) => {
+  const parsedFormData = Object.fromEntries(formData.entries());
+  const result = CommentSchemaZ.safeParse(parsedFormData);
+
+  if (result.success === false) {
+    const fieldErrors = result.error.formErrors.fieldErrors;
+    console.log("errors ::", fieldErrors);
+    return {
+      success: false,
+      error: fieldErrors,
+      data: null,
+    };
+  }
+
+  const data = result.data;
+
+  try {
+    const addedComment = await db.comment.create({
+      data: {
+        comment: data.comment,
+        userId: data.userId,
+        postId: data.postId,
+      },
+    });
+
+    console.log("addedComment ::", addedComment);
+    return {
+      success: true,
+      data: addedComment,
+      error: null,
+    };
+  } catch (error) {
+    console.log("Error creting comment :", error);
+    return {
+      success: false,
+      error: "Error Adding Comment!",
+      data: null,
+    };
+  }
+};

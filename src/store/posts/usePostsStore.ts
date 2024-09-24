@@ -1,6 +1,7 @@
 import { Comment, Post, Like, User } from "@prisma/client";
 import { create } from "zustand";
 import {
+  addCommentPostAction,
   addLikePostAction,
   deletePostAction,
   removeLikePostAction,
@@ -22,6 +23,7 @@ type PostsStoreActions = {
   deletePost: (postId: number) => Promise<void>;
   addLikePost: (postId: number, userId: number) => Promise<void>;
   removeLikePost: (postId: number, userId: number) => Promise<void>;
+  addCommentPost: (formData: FormData) => Promise<void>;
 };
 
 type PostsStore = PostsStoreState & PostsStoreActions;
@@ -47,4 +49,5 @@ export const usePostsStore = create<PostsStore>()((set) => ({
   deletePost: (postId) => deletePostAction(postId, set),
   addLikePost: (postId, userId) => addLikePostAction(postId, userId, set),
   removeLikePost: (postId, userId) => removeLikePostAction(postId, userId, set),
+  addCommentPost: (formData) => addCommentPostAction(formData, set),
 }));

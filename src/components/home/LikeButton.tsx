@@ -17,7 +17,7 @@ export const LikeButton = ({
     isLiked ? removeLikePost(postId, userId) : addLikePost(postId, userId);
   };
   return (
-    <button onClick={handleToggleLike}>
+    <button onClick={handleToggleLike} title="Like">
       <Heart
         className={clsx(
           "transition-all",

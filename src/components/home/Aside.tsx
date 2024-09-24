@@ -10,7 +10,7 @@ import clsx from "clsx";
 
 const Aside = () => {
   return (
-    <div className="flex-grow max-w-[20rem] pt-10 flex flex-col items-center border px-4">
+    <div className="flex-grow max-w-[20rem] pt-10 flex flex-col items-center px-4">
       <div className=" w-full space-y-6">
         {/* prifile */}
         <ProfileAsideItem />
@@ -46,7 +46,7 @@ const Aside = () => {
                   {link.label}
                 </Link>
                 {idx !== HOME_ASIDE_FOOTER_LINKS.length - 1 && (
-                  <span className="text-[rgb(199,199,199)]">·</span>
+                  <span className="text-[rgb(199,199,199)] text-xs">·</span>
                 )}
               </>
             ))}

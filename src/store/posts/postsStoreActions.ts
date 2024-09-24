@@ -120,3 +120,9 @@ export const deletePostAction = async (postId: number, set: SetPostStore) => {
     });
   }
 };
+
+// TODO: complete this store action for adding comment
+export const addCommentPostAction = async (
+  formData: FormData,
+  set: SetPostStore
+) => {};
