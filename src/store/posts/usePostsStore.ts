@@ -6,6 +6,7 @@ import {
   deletePostAction,
   removeLikePostAction,
 } from "./postsStoreActions";
+import { CommentFormData } from "@/lib/actions/feed.actions";
 
 export type InstaPost = Post & {
   comments: Comment[];
@@ -23,7 +24,7 @@ type PostsStoreActions = {
   deletePost: (postId: number) => Promise<void>;
   addLikePost: (postId: number, userId: number) => Promise<void>;
   removeLikePost: (postId: number, userId: number) => Promise<void>;
-  addCommentPost: (formData: FormData) => Promise<void>;
+  addCommentPost: (formData: CommentFormData) => Promise<void>;
 };
 
 type PostsStore = PostsStoreState & PostsStoreActions;

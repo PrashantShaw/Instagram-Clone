@@ -1,14 +1,30 @@
+"use client";
+import { CommentFormData } from "@/lib/actions/feed.actions";
+import { usePostsStore } from "@/store/posts/usePostsStore";
 import { Smile } from "lucide-react";
-import React from "react";
+import React, { FormEvent } from "react";
 
 type CommentFormProps = {
   postId: number;
   userId: number;
 };
 const CommentForm = ({ postId, userId }: CommentFormProps) => {
+  const { addCommentPost } = usePostsStore();
+  const handleCommentSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const parsedFormData = Object.fromEntries(
+      formData.entries()
+    ) as unknown as CommentFormData;
+    form.reset();
+    if (parsedFormData.comment.trim() === "") return;
+
+    await addCommentPost(parsedFormData);
+  };
   return (
     <div>
-      <form action={() => {}}>
+      <form onSubmit={handleCommentSubmit}>
         <div className="w-full flex items-center justify-between gap-2">
           <input
             name="comment"

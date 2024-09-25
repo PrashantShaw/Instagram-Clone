@@ -3,6 +3,7 @@ import { db } from "@/db/prisma.db";
 import fs from "fs/promises";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { sleep } from "../utils";
 
 const fileSchemaZ = z.instanceof(File, { message: "Required!" });
 const imageSchemaZ = fileSchemaZ.refine(
@@ -56,9 +57,10 @@ const CommentSchemaZ = z.object({
   userId: z.coerce.number().min(1, { message: "User Id is missing!" }),
   postId: z.coerce.number().min(1, { message: "Post Id is missing!" }),
 });
-export const addComment = async (formData: FormData) => {
-  const parsedFormData = Object.fromEntries(formData.entries());
-  const result = CommentSchemaZ.safeParse(parsedFormData);
+export type CommentFormData = z.infer<typeof CommentSchemaZ>;
+
+export const addComment = async (commentFormData: CommentFormData) => {
+  const result = CommentSchemaZ.safeParse(commentFormData);
 
   if (result.success === false) {
     const fieldErrors = result.error.formErrors.fieldErrors;
@@ -72,7 +74,10 @@ export const addComment = async (formData: FormData) => {
 
   const data = result.data;
 
+  // const random = Math.random();
   try {
+    // if (random > 0.5) throw new Error("Custom Error For Test!");
+    // await sleep();
     const addedComment = await db.comment.create({
       data: {
         comment: data.comment,

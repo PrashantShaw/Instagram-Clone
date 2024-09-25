@@ -1,5 +1,6 @@
 import { deletePost, updateLike } from "@/lib/helpers/updaters";
 import { InstaPost, SetPostStore } from "./usePostsStore";
+import { addComment, CommentFormData } from "@/lib/actions/feed.actions";
 
 export const addLikePostAction = async (
   postId: number,
@@ -121,8 +122,59 @@ export const deletePostAction = async (postId: number, set: SetPostStore) => {
   }
 };
 
-// TODO: complete this store action for adding comment
 export const addCommentPostAction = async (
-  formData: FormData,
+  commentFormData: CommentFormData,
   set: SetPostStore
-) => {};
+) => {
+  console.log("CommentFormData ::", commentFormData);
+  const { comment } = commentFormData;
+  const postId = Number(commentFormData.postId);
+  const userId = Number(commentFormData.userId);
+  const tempId = Date.now();
+  set((state) => {
+    const tempComment = {
+      comment,
+      id: tempId,
+      userId,
+      postId,
+      createdAt: new Date(tempId),
+      updatedAt: new Date(tempId),
+    };
+    const optimisticPosts = state.posts.map((post) => {
+      if (post.id === postId) {
+        post.comments.push(tempComment);
+      }
+      return post;
+    });
+    return { posts: optimisticPosts };
+  });
+
+  const result = await addComment(commentFormData);
+  console.log("db updated", result);
+
+  if (result.success) {
+    set((state) => {
+      const actualPosts = state.posts.map((post) => {
+        if (post.id === postId) {
+          post.comments = post.comments.map((comment) =>
+            comment.id === tempId ? result.data! : comment
+          );
+        }
+        return post;
+      });
+      return { posts: actualPosts };
+    });
+  } else {
+    set((state) => {
+      const commentRevertedPosts = state.posts.map((post) => {
+        if (post.id === postId) {
+          post.comments = post.comments.filter(
+            (comment) => comment.id !== tempId
+          );
+        }
+        return post;
+      });
+      return { posts: commentRevertedPosts };
+    });
+  }
+};
