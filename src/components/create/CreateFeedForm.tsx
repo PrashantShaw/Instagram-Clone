@@ -8,7 +8,7 @@ import { useFormState } from "react-dom";
 import { createFeed } from "@/lib/actions/feed.actions";
 
 export const CreateFeedForm = () => {
-  const [fieldErrors, formAction] = useFormState(createFeed, {});
+  const [_fieldErrors, formAction] = useFormState(createFeed, {});
   return (
     <div>
       <form action={formAction}>

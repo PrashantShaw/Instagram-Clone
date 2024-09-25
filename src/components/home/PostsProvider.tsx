@@ -7,7 +7,7 @@ export type PostsProviderProps = {
   posts: InstaPost[];
 };
 const PostsProvider = ({ children, posts }: PostsProviderProps) => {
-  usePostsStore.setState((state) => ({ posts }));
+  usePostsStore.setState({ posts });
   return children;
 };
 

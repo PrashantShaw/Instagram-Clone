@@ -7,7 +7,8 @@ import { createUser } from "@/lib/actions/auth.actions";
 import { Button } from "../ui/button";
 
 const SignupForm = () => {
-  const [errors, formAction] = useFormState(createUser, {});
+  const [_errors, formAction] = useFormState(createUser, {});
+
   return (
     <div>
       <form action={formAction}>

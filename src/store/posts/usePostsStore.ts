@@ -45,7 +45,7 @@ export type SetPostStore = {
 
 export const usePostsStore = create<PostsStore>()((set) => ({
   posts: [],
-  setPosts: (posts) => set((state) => ({ posts })),
+  setPosts: (posts) => set({ posts }),
   addPost: (post) => set((state) => ({ posts: [...state.posts, post] })),
   deletePost: (postId) => deletePostAction(postId, set),
   addLikePost: (postId, userId) => addLikePostAction(postId, userId, set),
