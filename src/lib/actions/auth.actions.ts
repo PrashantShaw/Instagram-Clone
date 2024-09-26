@@ -11,6 +11,7 @@ const signupSchemaZ = z.object({
     .min(6, { message: "Password must be atleast 6 characters" }),
 });
 
+// FIXME: improve this function, check if user already exist, hash the passowrd before storing, also add confirm password check
 export const createUser = async (prevState: unknown, formData: FormData) => {
   const parsedFormData = Object.fromEntries(formData.entries());
   const result = signupSchemaZ.safeParse(parsedFormData);

@@ -16,9 +16,9 @@ const page = () => {
       <div className="w-full p-4 max-w-lg">
         <Card>
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl">Create an account</CardTitle>
+            <CardTitle className="text-2xl">Account Login</CardTitle>
             <CardDescription>
-              Enter your email below to create your account
+              Enter your email and password to login
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
