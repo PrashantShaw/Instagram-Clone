@@ -23,3 +23,34 @@ export const fetchPosts = async () => {
     };
   }
 };
+
+export const authenticateCredentialsLogin = async (
+  email: string,
+  password: string
+) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_DOMAIN || "";
+  const LOGIN_URL = `${BASE_URL}/api/v1/login`;
+  try {
+    const res = await fetch(LOGIN_URL, {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const { success, error, data } = await res.json();
+    // console.log("api result ::", result);
+    return {
+      success,
+      error,
+      data,
+    };
+  } catch (error) {
+    console.log("Failed to login!", error);
+    return {
+      success: false,
+      error: "Failed to login",
+      data: null,
+    };
+  }
+};

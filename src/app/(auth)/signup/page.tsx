@@ -8,11 +8,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const page = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex sm:items-center pt-12 sm:pt-0 justify-center h-screen relative">
+      <div className="fixed right-4 top-4 ">
+        <Link href={"/login"}>
+          <Button variant={"ghost"} className="font-semibold">
+            Login
+          </Button>
+        </Link>
+      </div>
       <div className="w-full p-4 max-w-lg">
         <Card>
           <CardHeader className="space-y-1">

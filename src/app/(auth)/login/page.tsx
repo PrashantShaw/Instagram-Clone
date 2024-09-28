@@ -1,4 +1,4 @@
-import SignupForm from "@/components/auth/SignupForm";
+import LoginForm from "@/components/auth/LoginForm";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,11 +8,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const page = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen relative">
+      <div className="fixed right-4 top-4 ">
+        <Link href={"/signup"}>
+          <Button variant={"ghost"} className="font-semibold">
+            Sign Up
+          </Button>
+        </Link>
+      </div>
       <div className="w-full p-4 max-w-lg">
         <Card>
           <CardHeader className="space-y-1">
@@ -26,19 +34,25 @@ const page = () => {
               <GithubLoginButton />
               <GoogleLoginButton />
             </div>
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  Or continue with
-                </span>
-              </div>
-            </div>
-            <SignupForm />
+            <AuthFormDivider />
+            <LoginForm />
           </CardContent>
         </Card>
+      </div>
+    </div>
+  );
+};
+
+const AuthFormDivider = () => {
+  return (
+    <div className="relative">
+      <div className="absolute inset-0 flex items-center">
+        <span className="w-full border-t" />
+      </div>
+      <div className="relative flex justify-center text-xs uppercase">
+        <span className="bg-background px-2 text-muted-foreground">
+          Or continue with
+        </span>
       </div>
     </div>
   );
