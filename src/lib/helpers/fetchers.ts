@@ -1,5 +1,6 @@
 import { db } from "@/db/prisma.db";
 import { sleep } from "../utils";
+import { LoginResponse } from "@/app/api/v1/login/route";
 
 export const fetchPosts = async () => {
   try {
@@ -38,7 +39,7 @@ export const authenticateCredentialsLogin = async (
         "content-type": "application/json",
       },
     });
-    const { success, error, data } = await res.json();
+    const { success, error, data }: LoginResponse = await res.json();
     // console.log("api result ::", result);
     return {
       success,

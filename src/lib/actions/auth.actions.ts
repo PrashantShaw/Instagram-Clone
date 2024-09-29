@@ -4,19 +4,8 @@ import { signIn } from "@/auth";
 import { db } from "@/db/prisma.db";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
-import { z } from "zod";
-
-const signupSchemaZ = z.object({
-  username: z.string().min(1, { message: "Required!" }),
-  email: z.string().email({ message: "Should be a valid email address" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be atleast 6 characters" }),
-});
-const loginSchemaZ = z.object({
-  email: z.string().email({ message: "Should be a valid email address" }),
-  password: z.string().min(1, { message: "Password can't be empty!" }),
-});
+import bcrypt from "bcrypt";
+import { loginSchemaZ, signupSchemaZ } from "@/lib/constants/definitions";
 
 // FIXME: improve this function, check if user already exist, hash the passowrd before storing, also add confirm password check
 export const createUser = async (prevState: unknown, formData: FormData) => {
@@ -26,21 +15,53 @@ export const createUser = async (prevState: unknown, formData: FormData) => {
   console.log(parsedFormData, result);
   if (result.success === false) {
     const fieldErrors = result.error.formErrors.fieldErrors;
-    return fieldErrors;
+    return {
+      success: false,
+      error: fieldErrors,
+      data: null,
+    };
   }
 
   const data = result.data;
+
   try {
+    const user = await db.user.findUnique({
+      where: { email: data.email },
+      select: {
+        email: true,
+      },
+    });
+    if (user) {
+      return {
+        success: false,
+        error: "An user with this email already exists!",
+        data: null,
+      };
+    }
+
+    const SALT_ROUNDS = 10;
+    const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
+
     const createdUser = await db.user.create({
       data: {
         username: data.username,
         email: data.email,
-        password: data.password,
+        password: hashedPassword,
       },
     });
     console.log("createdUser ::", createdUser);
+
+    return {
+      success: true,
+      error: null,
+      data: createdUser,
+    };
   } catch (error) {
-    console.log("error creating user ::", error);
+    return {
+      success: false,
+      error: "Server Error: Failed to Signup!",
+      data: null,
+    };
   }
 };
 

@@ -4,6 +4,14 @@ import { authenticateCredentialsLogin } from "./lib/helpers/fetchers";
 
 // TODO: implement user signin
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  pages: {
+    signIn: "/login",
+  },
+  session: {
+    maxAge: 60 * 30, // 30 mins
+    strategy: "jwt",
+    updateAge: 60 * 10,
+  },
   providers: [
     Credentials({
       credentials: {
@@ -19,13 +27,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         );
         console.log("authResult ::", authResult);
         if (!authResult.success) {
-          throw new Error(authResult.error);
-          // return null;
+          throw new Error(authResult.error!);
         }
 
-        return {
-          email: "example@email.co",
-        };
+        return authResult.data;
       },
     }),
   ],
