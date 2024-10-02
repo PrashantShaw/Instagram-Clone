@@ -3,16 +3,18 @@
 import { signIn } from "@/auth";
 import { db } from "@/db/prisma.db";
 import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
-import { loginSchemaZ, signupSchemaZ } from "@/lib/constants/definitions";
+import {
+  loginSchemaZ,
+  SignupFormData,
+  signupSchemaZ,
+} from "@/lib/constants/definitions";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
-// FIXME: improve this function, check if user already exist, hash the passowrd before storing, also add confirm password check
-export const createUser = async (prevState: unknown, formData: FormData) => {
-  const parsedFormData = Object.fromEntries(formData.entries());
-  const result = signupSchemaZ.safeParse(parsedFormData);
+export const createUser = async (formData: SignupFormData) => {
+  const result = signupSchemaZ.safeParse(formData);
 
-  console.log(parsedFormData, result);
+  console.log(formData, result);
   if (result.success === false) {
     const fieldErrors = result.error.formErrors.fieldErrors;
     return {
@@ -57,9 +59,24 @@ export const createUser = async (prevState: unknown, formData: FormData) => {
       data: createdUser,
     };
   } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      const isUsernameError =
+        (error.meta?.target as Array<string>)[0] === "username";
+      console.log(
+        "PrismaClientKnownRequestError: Failed to Signup, isUsernameError :",
+        isUsernameError
+      );
+      if (isUsernameError) {
+        return {
+          success: false,
+          error: `username: ${formData.username} is already taken!`,
+          data: null,
+        };
+      }
+    }
     return {
       success: false,
-      error: "Server Error: Failed to Signup!",
+      error: "Server Error: Failed to Signup -",
       data: null,
     };
   }

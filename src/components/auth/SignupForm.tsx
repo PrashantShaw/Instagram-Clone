@@ -3,15 +3,17 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useFormState } from "react-dom";
 import { createUser } from "@/lib/actions/auth.actions";
 import { Button } from "../ui/button";
 import { useForm, SubmitHandler, Controller, Control } from "react-hook-form";
 import { SignupFormData, signupSchemaZ } from "@/lib/constants/definitions";
 import clsx from "clsx";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const SignupForm = () => {
   // const [_errors, formAction] = useFormState(createUser, {});
+  const router = useRouter();
   const {
     handleSubmit,
     control,
@@ -27,8 +29,28 @@ const SignupForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<SignupFormData> = (data) => {
-    console.log("Signup form data ::", data);
+  const onSubmit: SubmitHandler<SignupFormData> = async (formData) => {
+    console.log("Signup form data ::", formData);
+    try {
+      const { success, error, data } = await createUser(formData);
+      if (success) {
+        toast.success("User successfully Created!", {
+          position: "top-center",
+          duration: 5000,
+        });
+        router.replace("/");
+      } else {
+        toast.error(JSON.stringify(error), {
+          position: "top-right",
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      toast.error("Failed to Create User!", {
+        position: "top-right",
+        duration: 5000,
+      });
+    }
   };
 
   return (
