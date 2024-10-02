@@ -10,6 +10,7 @@ import { SignupFormData, signupSchemaZ } from "@/lib/constants/definitions";
 import clsx from "clsx";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { LoaderCircle } from "lucide-react";
 
 const SignupForm = () => {
   // const [_errors, formAction] = useFormState(createUser, {});
@@ -30,7 +31,7 @@ const SignupForm = () => {
   });
 
   const onSubmit: SubmitHandler<SignupFormData> = async (formData) => {
-    console.log("Signup form data ::", formData);
+    // console.log("Signup form data ::", formData);
     try {
       const { success, error, data } = await createUser(formData);
       if (success) {
@@ -86,9 +87,7 @@ const SignupForm = () => {
             label="Confirm Password"
           />
           <div className="mt-2">
-            <Button type="submit" className="w-full">
-              Create account
-            </Button>
+            <CreateAccountButton isSubmitting={isSubmitting} />
           </div>
         </div>
       </form>
@@ -135,6 +134,22 @@ const ControllerInput = ({
         </div>
       )}
     />
+  );
+};
+
+const CreateAccountButton = ({ isSubmitting = false }) => {
+  const buttonContent = isSubmitting ? (
+    <>
+      <LoaderCircle className="animate-spin" />
+      &nbsp; Creating...
+    </>
+  ) : (
+    "Create account"
+  );
+  return (
+    <Button type="submit" className="w-full" disabled={isSubmitting}>
+      {buttonContent}
+    </Button>
   );
 };
 
