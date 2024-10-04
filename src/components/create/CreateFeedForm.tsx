@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useFormState } from "react-dom";
 import { createFeed } from "@/lib/actions/feed.actions";
 
+// TODO: add react-hook-form to this form as well and show selected image preview
 export const CreateFeedForm = () => {
   const [_fieldErrors, formAction] = useFormState(createFeed, {});
   return (

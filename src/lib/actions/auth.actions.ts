@@ -5,6 +5,7 @@ import { db } from "@/db/prisma.db";
 import { AuthError } from "next-auth";
 import bcrypt from "bcrypt";
 import {
+  LoginFormData,
   loginSchemaZ,
   SignupFormData,
   signupSchemaZ,
@@ -28,6 +29,7 @@ export const createUser = async (formData: SignupFormData) => {
   const data = result.data;
 
   try {
+    // FIXME: remove sleep() before prod deployment
     await sleep(2000);
     const user = await db.user.findUnique({
       where: { email: data.email },
@@ -84,40 +86,47 @@ export const createUser = async (formData: SignupFormData) => {
   }
 };
 
-export const credentialsUserLogin = async (
-  prevState: unknown,
-  formData: FormData
-) => {
-  const parsedFormData = Object.fromEntries(formData.entries());
-  const result = loginSchemaZ.safeParse(parsedFormData);
+export const credentialsUserLogin = async (formData: LoginFormData) => {
+  const result = loginSchemaZ.safeParse(formData);
 
-  console.log(parsedFormData, result);
+  console.log(formData, result);
   if (result.success === false) {
     const fieldErrors = result.error.formErrors.fieldErrors;
-    return fieldErrors;
+    return {
+      success: false,
+      error: fieldErrors,
+      data: null,
+    };
   }
 
   try {
+    // FIXME: remove sleep() before prod deployment
+    await sleep(1000);
     await signIn("credentials", {
       ...result.data,
       redirect: false,
     });
+    return {
+      success: true,
+      error: null,
+      data: "Login Success!",
+    };
   } catch (error: any) {
     console.log("Login Failed ::", error);
     if (error instanceof AuthError) {
       const errorMessage = error.cause?.err?.message;
-      console.log("Login Failed, AuthError ::", errorMessage);
+      console.log("Login Failed, AuthError ::", errorMessage, error.type);
       switch (error.type) {
         case "CredentialsSignin":
           return {
             success: false,
-            error: error.message,
+            error: errorMessage,
             data: null,
           };
         default:
           return {
             success: false,
-            error: "Auth Error: Failed to Login!",
+            error: errorMessage,
             data: null,
           };
       }
@@ -128,6 +137,4 @@ export const credentialsUserLogin = async (
       data: null,
     };
   }
-
-  // redirect("/");
 };

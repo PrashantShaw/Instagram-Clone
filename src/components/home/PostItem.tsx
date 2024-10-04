@@ -10,7 +10,6 @@ import { Bookmark, MessageCircle, Send } from "lucide-react";
 import Link from "next/link";
 import CommentForm from "./CommentForm";
 
-// TODO: apply font: apple-system
 export type PostProps = {
   post: InstaPost;
 };

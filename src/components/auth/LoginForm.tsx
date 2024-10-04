@@ -1,44 +1,94 @@
 "use client";
 import React from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useFormState } from "react-dom";
 import { credentialsUserLogin } from "@/lib/actions/auth.actions";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { LoginFormData, loginSchemaZ } from "@/lib/constants/definitions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
+import { ControllerInput } from "../common/ControllerInput";
+import { LoaderCircle } from "lucide-react";
 
 const LoginForm = () => {
-  const [_errors, formAction] = useFormState(credentialsUserLogin, {});
+  const router = useRouter();
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitting },
+    reset,
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchemaZ),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit: SubmitHandler<LoginFormData> = async (formData) => {
+    // console.log("Signup form data ::", formData);
+    try {
+      const { success, error, data } = await credentialsUserLogin(formData);
+      if (success) {
+        toast.success("Welcome!", {
+          position: "top-center",
+          duration: 5000,
+        });
+        router.replace("/");
+      } else {
+        toast.error(JSON.stringify(error), {
+          position: "top-right",
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      toast.error("Failed to Create User!", {
+        position: "top-right",
+        duration: 5000,
+      });
+    }
+  };
 
   return (
     <div>
-      <form action={formAction}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="your@email.com"
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-            />
-          </div>
+          <ControllerInput
+            control={control}
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            label="Email"
+          />
+          <ControllerInput
+            control={control}
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+            label="Password"
+          />
           <div className="mt-2">
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
+            <LoginButton isSubmitting={isSubmitting} />
           </div>
         </div>
       </form>
     </div>
+  );
+};
+
+const LoginButton = ({ isSubmitting = false }) => {
+  const buttonContent = isSubmitting ? (
+    <>
+      <LoaderCircle className="animate-spin" />
+      &nbsp; Logging In...
+    </>
+  ) : (
+    "Login"
+  );
+  return (
+    <Button type="submit" className="w-full" disabled={isSubmitting}>
+      {buttonContent}
+    </Button>
   );
 };
 
