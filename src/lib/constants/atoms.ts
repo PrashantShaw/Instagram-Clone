@@ -43,7 +43,7 @@ export const SUGGESTED_FOR_YOU_DATA = [
     followedBy: "shawravi200",
   },
   {
-    username: "smranshaw258",
+    username: "simranshaw258",
     followedBy: "shawravi200",
   },
   {
