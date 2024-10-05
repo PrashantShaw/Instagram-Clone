@@ -11,6 +11,7 @@ const imageSchemaZ = fileSchemaZ.refine(
 const feedSchemaZ = z.object({
   image: imageSchemaZ.refine((file) => file.size > 0, "Required!"),
   content: z.string().min(1, { message: "Required!" }),
+  creatorId: z.coerce.number().min(1, { message: "creator Id is Required!" }),
 });
 
 export const createImage = async (image: File): Promise<string> => {
@@ -41,7 +42,7 @@ export const createFeed = async (prevState: unknown, formData: FormData) => {
       data: {
         imagePath,
         content: data.content,
-        creatorId: 1,
+        creatorId: data.creatorId,
       },
     });
     console.log("createdFeed ::", createdFeed);

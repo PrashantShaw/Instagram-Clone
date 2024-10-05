@@ -9,6 +9,7 @@ type LoginRequestBody = {
 
 export type LoginResponse = {
   data: {
+    id: number;
     email: string;
     username: string;
     password: string;
@@ -27,6 +28,7 @@ export async function POST(
     const user = await db.user.findUnique({
       where: { email },
       select: {
+        id: true,
         email: true,
         password: true,
         username: true,

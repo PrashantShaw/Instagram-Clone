@@ -3,21 +3,27 @@ import Credentials from "next-auth/providers/credentials";
 import { authenticateCredentialsLogin } from "./lib/helpers/fetchers";
 import { JWT } from "next-auth/jwt";
 import { User as PrismaUser } from "@prisma/client";
+import { useUserStore } from "./store/user/useUserStore";
 
+type AuthUser = Pick<PrismaUser, "email" | "password" | "username"> & {
+  uid: string;
+};
 declare module "next-auth" {
   interface Session {
     user: {
+      uid: string;
       email: PrismaUser["email"];
       username: PrismaUser["username"];
       password: PrismaUser["password"];
     } & DefaultSession["user"];
     currTime: string;
   }
-  interface User extends Pick<PrismaUser, "email" | "password" | "username"> {}
+  interface User extends AuthUser {}
 }
 declare module "next-auth/jwt" {
   interface JWT {
     user: {
+      uid: string;
       email: PrismaUser["email"];
       password: PrismaUser["password"];
       username: PrismaUser["username"];
@@ -52,7 +58,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error(authResult.error!);
         }
         console.log("authResult ::", authResult);
-        return authResult.data;
+        // set authenticated user to store
+        const {
+          id,
+          email: _email,
+          password: _password,
+          username,
+        } = authResult.data!;
+
+        const user = {
+          uid: id.toString(),
+          email: _email,
+          password: _password,
+          username,
+        };
+        // useUserStore.setState({ user });
+
+        return user;
       },
     }),
   ],
@@ -62,6 +84,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         const jwtPayload = {
           user: {
+            uid: user.uid,
             email: user.email ?? "NA",
             password: user.password,
             username: user.username,

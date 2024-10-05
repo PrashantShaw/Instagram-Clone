@@ -25,6 +25,7 @@ const PostItemDropdownMenu: React.FC<PostItemDropdownMenuProps> = ({
       <DropdownMenuContent>
         {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
         {/* <DropdownMenuSeparator /> */}
+        <DropdownMenuItem>View</DropdownMenuItem>
         <DropdownMenuItem>Edit</DropdownMenuItem>
         <DropdownMenuItem
           className="font-semibold hover:!text-red-800 text-red-600"

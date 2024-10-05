@@ -9,6 +9,7 @@ import FollowButton from "@/components/common/FollowButton";
 import { Bookmark, MessageCircle, Send } from "lucide-react";
 import Link from "next/link";
 import CommentForm from "./CommentForm";
+import { useUserStore } from "@/store/user/useUserStore";
 
 export type PostProps = {
   post: InstaPost;
@@ -16,7 +17,8 @@ export type PostProps = {
 const PostItem = ({ post }: PostProps) => {
   const avatarFallbackText = post.creator.username[0].toUpperCase();
   const createdTimeAgo = getCreatedTimeAgo(post.createdAt);
-  const loggedInUserId = 1;
+  const { user } = useUserStore();
+  const loggedInUserId = Number(user?.uid);
   const isLiked = post.likes.some((like) => like.userId === loggedInUserId);
   const postId = post.id;
   const totalLikes = post.likes.length;

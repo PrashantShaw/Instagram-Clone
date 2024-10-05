@@ -35,7 +35,7 @@ export const updateLike = async (
       error: null,
     };
   } catch (error) {
-    console.error("Failed to like the post", error);
+    console.error("Failed to like the post ::", error);
     return {
       success: false,
       data: null,

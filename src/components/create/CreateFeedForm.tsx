@@ -6,13 +6,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useFormState } from "react-dom";
 import { createFeed } from "@/lib/actions/feed.actions";
+import { useUserStore } from "@/store/user/useUserStore";
 
 // TODO: add react-hook-form to this form as well and show selected image preview
 export const CreateFeedForm = () => {
   const [_fieldErrors, formAction] = useFormState(createFeed, {});
+  const { user } = useUserStore();
   return (
     <div>
       <form action={formAction}>
+        <input type="hidden" name="creatorId" value={user?.uid} />
         <div className="mb-6">
           <Label htmlFor="image">Add Image</Label>
           <Input id="image" type="file" name="image" className="mt-2" />
