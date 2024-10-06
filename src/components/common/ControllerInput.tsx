@@ -7,8 +7,9 @@ type ControllerInputProps<FData extends FieldValues> = {
   control: Control<FData, any>;
   name: Path<FData>;
   type: HTMLInputElement["type"];
-  placeholder: string;
-  label: string;
+  placeholder?: string;
+  label?: string;
+  value?: string;
 };
 export const ControllerInput = <FData extends FieldValues>({
   control,
@@ -16,6 +17,7 @@ export const ControllerInput = <FData extends FieldValues>({
   type,
   placeholder,
   label,
+  value,
 }: ControllerInputProps<FData>) => {
   return (
     <Controller
@@ -23,12 +25,13 @@ export const ControllerInput = <FData extends FieldValues>({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="relative">
-          <Label htmlFor={name}>{label}</Label>
+          {label ? <Label htmlFor={name}>{label}</Label> : null}
           <Input
             {...field}
             id={name}
             type={type}
             placeholder={placeholder}
+            value={value}
             className={clsx(
               " focus-visible:ring-2 focus-visible:ring-offset-0",
               error ? "ring-2 ring-red-600  focus-visible:ring-red-600" : ""

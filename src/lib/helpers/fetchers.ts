@@ -5,11 +5,12 @@ import { LoginResponse } from "@/app/api/v1/login/route";
 export const fetchPosts = async () => {
   try {
     // FIXME: remove sleep() before prod deployment
-    await sleep();
+    await sleep(500);
     const posts = await db.post.findMany({
       include: { creator: true, comments: true, likes: true },
+      orderBy: { createdAt: "desc" },
     });
-    console.log("posts ::", posts);
+    // console.log("posts ::", posts);
     return {
       data: posts,
       success: true,

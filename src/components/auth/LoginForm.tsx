@@ -42,7 +42,7 @@ const LoginForm = () => {
         });
       }
     } catch (error) {
-      toast.error("Failed to Create User!", {
+      toast.error("Failed to Login!", {
         position: "top-right",
         duration: 5000,
       });

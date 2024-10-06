@@ -34,3 +34,18 @@ export function getCreatedTimeAgo(createdAt: Date) {
 
   return result;
 }
+
+export const getFormDataFromObject = <FD>(feedData: FD): FormData => {
+  const formData = new FormData();
+  for (const field in feedData) {
+    const element = feedData[field as keyof typeof feedData];
+    // Check if the field is a FileList (file input) and append it properly
+    if (element instanceof FileList && element.length > 0) {
+      formData.append(field, element[0]); // Append the first file from FileList
+    } else {
+      // For other fields, just append the value
+      formData.append(field, element as string);
+    }
+  }
+  return formData;
+};

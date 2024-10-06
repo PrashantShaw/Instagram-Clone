@@ -72,7 +72,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           password: _password,
           username,
         };
-        // useUserStore.setState({ user });
 
         return user;
       },

@@ -1,8 +1,10 @@
 "use server";
 import { db } from "@/db/prisma.db";
 import fs from "fs/promises";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { sleep } from "../utils";
 
 const fileSchemaZ = z.instanceof(File, { message: "Required!" });
 const imageSchemaZ = fileSchemaZ.refine(
@@ -18,26 +20,33 @@ export const createImage = async (image: File): Promise<string> => {
   await fs.mkdir("public/feedImages", { recursive: true });
   const imagePath = `/feedImages/${crypto.randomUUID()}-${image.name}`;
   const imageArrayBuffer = await image.arrayBuffer();
-  const imageBuffer = Buffer.from(imageArrayBuffer);
+  const imageBuffer = new Uint8Array(Buffer.from(imageArrayBuffer));
   await fs.writeFile(`public${imagePath}`, imageBuffer);
 
   return imagePath;
 };
+export type FeedFormData = z.infer<typeof feedSchemaZ>;
 
-export const createFeed = async (prevState: unknown, formData: FormData) => {
+export const createFeed = async (formData: FormData) => {
   const parsedFormData = Object.fromEntries(formData.entries());
   const result = feedSchemaZ.safeParse(parsedFormData);
 
   if (result.success === false) {
     const fieldErrors = result.error.formErrors.fieldErrors;
     console.log("errors ::", fieldErrors);
-    return fieldErrors;
+    return {
+      success: false,
+      error: fieldErrors,
+      data: null,
+    };
   }
 
   const data = result.data;
   const imagePath = await createImage(data.image);
 
   try {
+    // FIXME: remove sleep() before prod deployment
+    await sleep(1000);
     const createdFeed = await db.post.create({
       data: {
         imagePath,
@@ -46,10 +55,21 @@ export const createFeed = async (prevState: unknown, formData: FormData) => {
       },
     });
     console.log("createdFeed ::", createdFeed);
+    revalidatePath("/");
+    return {
+      success: true,
+      error: null,
+      data: createdFeed,
+    };
   } catch (error) {
     console.log("error creating feed ::", error);
+    return {
+      success: false,
+      error: "error creating feed ::" + error,
+      data: null,
+    };
   }
-  redirect("/");
+  // redirect("/");
 };
 
 const CommentSchemaZ = z.object({
