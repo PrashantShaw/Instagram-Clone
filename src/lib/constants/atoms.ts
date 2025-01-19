@@ -1,10 +1,14 @@
 import { Heart, House, Search, Send, Settings, SquarePlus } from "lucide-react";
+// import { GoHome, GoHomeFill } from "react-icons/go";
 
+// TODO: add filled icons for selected tab
 export const NAV_LINKS = [
   {
     label: "Home",
     href: "/",
     icon: House,
+    // icon: GoHome,
+    // iconDark: GoHomeFill
   },
   {
     label: "Explore",
