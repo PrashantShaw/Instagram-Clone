@@ -1,5 +1,6 @@
 import LoginForm from "@/components/auth/LoginForm";
 import { Button } from "@/components/ui/button";
+import { FaGithub, FaInstagram } from "react-icons/fa";
 import {
   Card,
   CardContent,
@@ -7,9 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { FcGoogle } from "react-icons/fc";
 
 const page = () => {
   return (
@@ -20,6 +21,9 @@ const page = () => {
             Sign Up
           </Button>
         </Link>
+      </div>
+      <div className="fixed left-6 top-6 text-2xl">
+        <FaInstagram />
       </div>
       <div className="w-full p-4 max-w-lg">
         <Card>
@@ -60,28 +64,16 @@ const AuthFormDivider = () => {
 
 const GithubLoginButton = () => {
   return (
-    <Button variant="outline">
-      <Image
-        src="/images/common/github-icon.png"
-        alt="Github Icon"
-        width={16}
-        height={16}
-        className="mr-[6px]"
-      />
+    <Button variant="secondary">
+      <FaGithub className="text-[1rem] mr-2" />
       Github
     </Button>
   );
 };
 const GoogleLoginButton = () => {
   return (
-    <Button variant="outline">
-      <Image
-        src="/images/common/google-icon.png"
-        alt="Github Icon"
-        width={16}
-        height={16}
-        className="mr-[6px]"
-      />
+    <Button variant="secondary">
+      <FcGoogle className="text-[1rem] mr-2" />
       Google
     </Button>
   );
