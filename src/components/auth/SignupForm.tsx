@@ -5,7 +5,6 @@ import { createUser } from "@/lib/actions/auth.actions";
 import { Button } from "../ui/button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SignupFormData, signupSchemaZ } from "@/lib/constants/definitions";
-import clsx from "clsx";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { LoaderCircle } from "lucide-react";
@@ -18,7 +17,7 @@ const SignupForm = () => {
     handleSubmit,
     control,
     formState: { isSubmitting },
-    reset,
+    // reset,
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchemaZ),
     defaultValues: {
@@ -32,7 +31,7 @@ const SignupForm = () => {
   const onSubmit: SubmitHandler<SignupFormData> = async (formData) => {
     // console.log("Signup form data ::", formData);
     try {
-      const { success, error, data } = await createUser(formData);
+      const { success, error } = await createUser(formData);
       if (success) {
         toast.success("User successfully Created!", {
           position: "top-center",

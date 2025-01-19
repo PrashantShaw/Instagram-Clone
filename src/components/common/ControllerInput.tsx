@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import clsx from "clsx";
 
 type ControllerInputProps<FData extends FieldValues> = {
-  control: Control<FData, any>;
+  control: Control<FData, unknown>;
   name: Path<FData>;
   type: HTMLInputElement["type"];
   placeholder?: string;

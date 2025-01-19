@@ -111,7 +111,7 @@ export const credentialsUserLogin = async (formData: LoginFormData) => {
       error: null,
       data: "Login Success!",
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log("Login Failed ::", error);
     if (error instanceof AuthError) {
       const errorMessage = error.cause?.err?.message;

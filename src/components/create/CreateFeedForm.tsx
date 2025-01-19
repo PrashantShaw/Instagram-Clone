@@ -51,7 +51,7 @@ export const CreateFeedForm = ({ creatorId }: { creatorId: number }) => {
     // console.log("FeedFormData ::", feedData);
     const feedFormData = getFormDataFromObject(feedData);
     try {
-      const { success, error, data } = await createFeed(feedFormData);
+      const { success, error } = await createFeed(feedFormData);
       // console.log("success, error, data ::", success, error, data);
       if (success) {
         toast.success("Feed Created!", {

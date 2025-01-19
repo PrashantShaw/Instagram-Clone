@@ -13,7 +13,7 @@ const Posts = async () => {
   }
 
   return (
-    <PostsProvider posts={posts ?? []} user={session?.user!}>
+    <PostsProvider posts={posts ?? []} user={session?.user ?? null}>
       <PostsWrapper />
     </PostsProvider>
   );

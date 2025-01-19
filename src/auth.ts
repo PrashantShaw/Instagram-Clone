@@ -1,9 +1,10 @@
 import NextAuth, { DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authenticateCredentialsLogin } from "./lib/helpers/fetchers";
-import { JWT } from "next-auth/jwt";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { JWT } from "next-auth/jwt"; // below line will be used for declare module "next-auth/jwt"
 import { User as PrismaUser } from "@prisma/client";
-import { useUserStore } from "./store/user/useUserStore";
 
 type AuthUser = Pick<PrismaUser, "email" | "password" | "username"> & {
   uid: string;
@@ -78,7 +79,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    jwt: ({ token, user, trigger }) => {
+    jwt: ({ token, user }) => {
       // 'user' will is available when login is triggered through any OAuth provider.
       if (user) {
         const jwtPayload = {

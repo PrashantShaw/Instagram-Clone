@@ -16,7 +16,7 @@ const LoginForm = () => {
     handleSubmit,
     control,
     formState: { isSubmitting },
-    reset,
+    // reset,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchemaZ),
     defaultValues: {
@@ -28,7 +28,7 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<LoginFormData> = async (formData) => {
     // console.log("Signup form data ::", formData);
     try {
-      const { success, error, data } = await credentialsUserLogin(formData);
+      const { success, error } = await credentialsUserLogin(formData);
       if (success) {
         toast.success("Welcome!", {
           position: "top-center",
