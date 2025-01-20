@@ -1,4 +1,5 @@
 import SignupForm from "@/components/auth/SignupForm";
+import Instagram from "@/components/common/Instagram";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import React from "react";
-import { FaGithub, FaInstagram } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 const page = () => {
@@ -23,7 +24,7 @@ const page = () => {
         </Link>
       </div>
       <div className="fixed left-6 top-6 text-2xl">
-        <FaInstagram />
+        <Instagram />
       </div>
       <div className="w-full p-4 max-w-lg">
         <Card>

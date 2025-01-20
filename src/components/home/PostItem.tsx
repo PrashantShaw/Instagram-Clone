@@ -30,15 +30,15 @@ const PostItem = ({ post }: PostProps) => {
         <div className="flex items-center gap-2">
           <Avatar className="w-10 h-10 group-hover:scale-[105%] transition-all">
             <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback className=" bg-gray-800 font-semibold text-primary-foreground">
+            <AvatarFallback className=" bg-primary font-semibold text-primary-foreground">
               {avatarFallbackText}
             </AvatarFallback>
           </Avatar>
           <div className="flex items-center gap-1">
             <p className="font-semibold">{post.creator.username}</p>
-            <span className="text-gray-500">•</span>
-            <p className="text-gray-500">{createdTimeAgo}</p>
-            <span className="text-gray-500">•</span>
+            <span className="text-muted-foreground">•</span>
+            <p className="text-muted-foreground">{createdTimeAgo}</p>
+            <span className="text-muted-foreground">•</span>
             <FollowButton />
           </div>
         </div>
@@ -81,7 +81,7 @@ const PostItem = ({ post }: PostProps) => {
           </p>
         </div>
         <div className="">
-          <button className="text-gray-500">
+          <button className="text-muted-foreground">
             View all {totalComments > 0 ? totalComments : ""} comments
           </button>
         </div>
@@ -94,21 +94,21 @@ const PostItem = ({ post }: PostProps) => {
 export const CommentButton = () => {
   return (
     <button title="Comment">
-      <MessageCircle className="hover:text-gray-500 rotate-[-90deg]" />
+      <MessageCircle className="hover:text-muted-foreground rotate-[-90deg]" />
     </button>
   );
 };
 export const ShareButton = () => {
   return (
     <button title="Share">
-      <Send className="hover:text-gray-500" />
+      <Send className="hover:text-muted-foreground" />
     </button>
   );
 };
 export const SaveButton = () => {
   return (
     <button className="ml-auto" title="Save">
-      <Bookmark className="hover:text-gray-500" />
+      <Bookmark className="hover:text-muted-foreground" />
     </button>
   );
 };

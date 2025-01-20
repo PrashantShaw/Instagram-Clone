@@ -28,14 +28,14 @@ const CommentForm = ({ postId, userId }: CommentFormProps) => {
         <div className="w-full flex items-center justify-between gap-2">
           <input
             name="comment"
-            className=" w-full placeholder:text-gray-500 focus:outline-none"
+            className=" w-full placeholder:text-muted-foreground bg-transparent focus:outline-none"
             type="text"
             placeholder="Add a comment..."
           />
           <input type="hidden" name="postId" value={postId} />
           <input type="hidden" name="userId" value={userId} />
           <button type="button">
-            <Smile className="h-4 w-4 text-gray-500 hover:text-gray-300" />
+            <Smile className="h-4 w-4 text-muted-foreground hover:text-muted-foreground" />
           </button>
         </div>
       </form>

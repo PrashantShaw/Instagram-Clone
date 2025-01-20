@@ -1,6 +1,6 @@
 import LoginForm from "@/components/auth/LoginForm";
 import { Button } from "@/components/ui/button";
-import { FaGithub, FaInstagram } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import {
   Card,
   CardContent,
@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
+import Instagram from "@/components/common/Instagram";
 
 const page = () => {
   return (
@@ -23,7 +24,7 @@ const page = () => {
         </Link>
       </div>
       <div className="fixed left-6 top-6 text-2xl">
-        <FaInstagram />
+        <Instagram />
       </div>
       <div className="w-full p-4 max-w-lg">
         <Card>

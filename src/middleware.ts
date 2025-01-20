@@ -1,7 +1,7 @@
 import { auth as middleware } from "@/auth";
 import { NextResponse } from "next/server";
 
-const protectedRoutes = ["/profile", "/create"];
+const protectedRoutes = ["/profile", "/create", "/settings"];
 
 const authRoutes = ["/signup", "/login"];
 
