@@ -18,10 +18,10 @@ const Aside = () => {
         {/* suggestions */}
         <div className="">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-gray-500">
+            <p className="text-sm font-semibold text-muted-foreground">
               Suggested for you
             </p>
-            <button className="text-xs font-semibold hover:text-gray-400">
+            <button className="text-xs font-semibold hover:text-muted-foreground">
               See All
             </button>
           </div>
@@ -42,17 +42,17 @@ const Aside = () => {
               <>
                 <Link
                   href={link.href}
-                  className="text-xs text-[rgb(199,199,199)] hover:underline"
+                  className="text-xs text-muted-foreground/60 hover:underline"
                 >
                   {link.label}
                 </Link>
                 {idx !== HOME_ASIDE_FOOTER_LINKS.length - 1 && (
-                  <span className="text-[rgb(199,199,199)] text-xs">·</span>
+                  <span className="text-muted-foreground/60 text-xs">·</span>
                 )}
               </>
             ))}
           </div>
-          <p className="text-xs text-[rgb(199,199,199)] pt-5">
+          <p className="text-xs text-muted-foreground/60 pt-5">
             {"© 2024 Instagram from Meta".toUpperCase()}
           </p>
         </div>
@@ -88,17 +88,14 @@ const SuggestedAsideItem = ({
           <Avatar className="w-11 h-11 group-hover:scale-[105%] transition-all">
             <AvatarImage src="https://github.com/shadcn.pngg" />
             <AvatarFallback
-              className={clsx(
-                "font-semibold text-primary-foreground bg-",
-                avatarColors[idx]
-              )}
+              className={clsx("font-semibold text-white", avatarColors[idx])}
             >
               {avatarInitials}
             </AvatarFallback>
           </Avatar>
           <div className="">
             <p className="text-sm font-semibold">{suggestedUser.username}</p>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               Followed by {suggestedUser.followedBy}
             </p>
           </div>

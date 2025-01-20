@@ -19,10 +19,13 @@ export function getCreatedTimeAgo(createdAt: Date) {
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
+  const weeks = Math.floor(days / 7);
 
   let result;
 
-  if (days > 0) {
+  if (weeks > 0) {
+    result = `${weeks}w`;
+  } else if (days > 0) {
     result = `${days}d`;
   } else if (hours > 0) {
     result = `${hours}h`;

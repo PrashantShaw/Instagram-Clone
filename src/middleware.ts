@@ -1,22 +1,25 @@
 import { auth as middleware } from "@/auth";
 import { NextResponse } from "next/server";
 
-const protectedRoutes = ["/profile", "/create", "/settings"];
-
 const authRoutes = ["/signup", "/login"];
+// by default all routes will be protected, only add the unprotected routes
+const unprotectedRoutes = ["/post/", ...authRoutes];
+const FEEDS_PAGE_PATHNAME = "/";
 
 export default middleware((request) => {
   const { auth, nextUrl } = request;
   const isLoggedIn = !!auth;
-  const FEEDS_PAGE_PATHNAME = "/";
   const isAuthRoute = authRoutes.some((route) =>
     nextUrl.pathname.startsWith(route)
   );
   const isProtectedRoute = (() => {
     if (nextUrl.pathname === FEEDS_PAGE_PATHNAME) return true;
-    return protectedRoutes.some((route) => nextUrl.pathname.startsWith(route));
+    const isUnprotectedRoute = unprotectedRoutes.some((route) =>
+      nextUrl.pathname.startsWith(route)
+    );
+    return !isUnprotectedRoute;
   })();
-  //   console.log(auth, nextUrl.pathname);
+  // console.log(isProtectedRoute, auth, nextUrl.pathname);
   if (isProtectedRoute && !isLoggedIn) {
     const loginUrl = new URL(authRoutes[1], nextUrl.origin);
     return NextResponse.redirect(loginUrl);
@@ -24,6 +27,7 @@ export default middleware((request) => {
     const feedsPageUrl = new URL(FEEDS_PAGE_PATHNAME, nextUrl.origin);
     return NextResponse.redirect(feedsPageUrl);
   }
+  return NextResponse.next();
 });
 
 export const config = {

@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { authenticateCredentialsLogin } from "./lib/helpers/fetchers";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { JWT } from "next-auth/jwt"; // below line will be used for declare module "next-auth/jwt"
+import { JWT } from "next-auth/jwt"; // below line will be used for: declare module "next-auth/jwt"
 import { User as PrismaUser } from "@prisma/client";
 
 type AuthUser = Pick<PrismaUser, "email" | "password" | "username"> & {

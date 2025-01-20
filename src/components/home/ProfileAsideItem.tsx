@@ -12,7 +12,7 @@ export const ProfileAsideItem = async () => {
         <div className="flex items-center gap-3">
           <Avatar className="w-11 h-11 group-hover:scale-[105%] transition-all">
             <AvatarImage src="https://github.com/shadcn.pngg" />
-            <AvatarFallback className=" bg-gray-800 font-semibold text-primary-foreground">
+            <AvatarFallback className=" bg-secondary font-semibold text-secondary-foreground">
               P
             </AvatarFallback>
           </Avatar>
