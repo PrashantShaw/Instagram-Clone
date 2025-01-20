@@ -1,39 +1,57 @@
-import { Heart, House, Search, Send, Settings, SquarePlus } from "lucide-react";
-// import { GoHome, GoHomeFill } from "react-icons/go";
+import {
+  FaCompass,
+  FaHeart,
+  FaRegCompass,
+  FaRegHeart,
+  FaSearch,
+} from "react-icons/fa";
+import { GoHome, GoHomeFill } from "react-icons/go";
+import { IoSearch, IoSettingsOutline, IoSettingsSharp } from "react-icons/io5";
+import { TbSend } from "react-icons/tb";
+import { RiAddBoxFill, RiAddBoxLine, RiSendPlaneFill } from "react-icons/ri";
 
-// TODO: add filled icons for selected tab
 export const NAV_LINKS = [
   {
     label: "Home",
     href: "/",
-    icon: House,
-    // icon: GoHome,
-    // iconDark: GoHomeFill
+    icon: GoHome,
+    iconSolid: GoHomeFill,
+  },
+  {
+    label: "Search",
+    href: "/search",
+    icon: IoSearch,
+    iconSolid: FaSearch,
   },
   {
     label: "Explore",
     href: "/explore",
-    icon: Search,
+    icon: FaRegCompass,
+    iconSolid: FaCompass,
   },
   {
     label: "Notifications",
     href: "/notifications",
-    icon: Heart,
+    icon: FaRegHeart,
+    iconSolid: FaHeart,
   },
   {
     label: "Messages",
     href: "/messages",
-    icon: Send,
+    icon: TbSend,
+    iconSolid: RiSendPlaneFill,
   },
   {
     label: "Create",
     href: "/create",
-    icon: SquarePlus,
+    icon: RiAddBoxLine,
+    iconSolid: RiAddBoxFill,
   },
   {
     label: "Settings",
     href: "/settings",
-    icon: Settings,
+    icon: IoSettingsOutline,
+    iconSolid: IoSettingsSharp,
   },
 ];
 

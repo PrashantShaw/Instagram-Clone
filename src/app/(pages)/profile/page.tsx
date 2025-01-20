@@ -32,7 +32,7 @@ const LogoutButton = async () => {
     >
       <Button variant={"ghost"} type="submit">
         <div className=" flex items-center gap-2 ">
-          <LogOut size={18} className="text-gray-900" />
+          <LogOut size={18} className="" />
           <p className="font-medium">Logout</p>
         </div>
       </Button>

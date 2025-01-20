@@ -18,7 +18,7 @@ export const ProfileAsideItem = async () => {
           </Avatar>
           <div className="">
             <p className="text-sm font-semibold">{user?.username}</p>
-            <p className="text-sm text-gray-500">{user?.email}</p>
+            <p className="text-sm text-muted-foreground">{user?.email}</p>
           </div>
         </div>
       </Link>
