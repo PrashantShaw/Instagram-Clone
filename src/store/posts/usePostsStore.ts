@@ -16,10 +16,14 @@ export type InstaPost = Post & {
 
 type PostsStoreState = {
   posts: InstaPost[];
+  postIdToDelete: number | null;
 };
 
 type PostsStoreActions = {
   setPosts: (posts: PostsStoreState["posts"]) => void;
+  setPostIdToDelete: (
+    setPostIdToDelete: PostsStoreState["postIdToDelete"]
+  ) => void;
   addPost: (post: InstaPost) => void;
   deletePost: (postId: number) => Promise<void>;
   addLikePost: (postId: number, userId: number) => Promise<void>;
@@ -45,7 +49,9 @@ export type SetPostStore = {
 
 export const usePostsStore = create<PostsStore>()((set) => ({
   posts: [],
+  postIdToDelete: null,
   setPosts: (posts) => set({ posts }),
+  setPostIdToDelete: (postIdToDelete) => set({ postIdToDelete }),
   addPost: (post) => set((state) => ({ posts: [...state.posts, post] })),
   deletePost: (postId) => deletePostAction(postId, set),
   addLikePost: (postId, userId) => addLikePostAction(postId, userId, set),

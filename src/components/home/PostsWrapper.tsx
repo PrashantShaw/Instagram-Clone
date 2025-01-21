@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PostItem from "./PostItem";
 import { usePostsStore } from "@/store/posts/usePostsStore";
 import {
@@ -11,53 +11,69 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
+import toast from "react-hot-toast";
 
 const PostsWrapper = () => {
   const { posts } = usePostsStore();
-  const [open, setOpen] = useState(false);
-  const [postIdToDelete, setPostIdToDelete] = useState(0);
 
-  const openConfirmDeletePostModal = useCallback((postId: number) => {
-    setPostIdToDelete(postId);
-    setOpen(true);
-  }, []);
   return (
     <div className="flex-grow max-w-[40rem] pt-8 flex flex-col items-center ">
       {posts.map((post) => (
-        <PostItem
-          key={post.id}
-          post={post}
-          openConfirmDeletePostModal={openConfirmDeletePostModal}
-        />
+        <PostItem key={post.id} post={post} />
       ))}
-      <DeletePostModal
-        open={open}
-        setOpen={setOpen}
-        postIdToDelete={postIdToDelete}
-      />
+      <DeletePostModal />
     </div>
   );
 };
 
-type DeletePostModalProps = {
-  open: boolean | undefined;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  postIdToDelete: number;
-};
-const DeletePostModal = ({
-  open,
-  setOpen,
-  postIdToDelete,
-}: DeletePostModalProps) => {
-  const { deletePost } = usePostsStore();
+const DeletePostModal = () => {
+  const { deletePost, postIdToDelete, setPostIdToDelete } = usePostsStore();
+  const [open, setOpen] = useState(false); // open the dialog if 'postIdToDelete' is set
+
+  useEffect(() => {
+    setOpen(postIdToDelete !== null);
+  }, [postIdToDelete]);
+
+  console.log("DeletePostModal :: postIdToDelete ", postIdToDelete, open);
 
   const handleDeletePost = useCallback(async () => {
-    await deletePost(postIdToDelete);
+    if (postIdToDelete === null) {
+      toast.error("Post Id is missing!", {
+        position: "bottom-right",
+      });
+      setOpen(false);
+      return;
+    }
+    try {
+      await deletePost(postIdToDelete);
+      toast.success("Post deleted successfully!", {
+        position: "bottom-right",
+      });
+    } catch (error) {
+      console.log("Error deleting post", error);
+      toast.error("Failed to delete the post!", {
+        position: "bottom-right",
+      });
+    } finally {
+      setOpen(false);
+      setPostIdToDelete(null);
+    }
+  }, [deletePost, postIdToDelete, setPostIdToDelete]);
+
+  const handleCloseDialog = useCallback(() => {
+    setPostIdToDelete(null);
     setOpen(false);
-  }, [deletePost, postIdToDelete, setOpen]);
+  }, [setPostIdToDelete]);
   // Cute robo in the middle of nowhere, maybe wondering which way to go.. Can you guys help him out??
+  const onOpenChange = useCallback(
+    (state: boolean) => {
+      setPostIdToDelete(null);
+      setOpen(state);
+    },
+    [setPostIdToDelete]
+  );
   return (
-    <Dialog open={open} onOpenChange={(state) => setOpen(state)}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
           <DialogTitle>Are you sure want to delete this post?</DialogTitle>
@@ -78,7 +94,7 @@ const DeletePostModal = ({
             <Button
               type="button"
               variant="secondary"
-              onClick={() => setOpen(false)}
+              onClick={handleCloseDialog}
             >
               Close
             </Button>

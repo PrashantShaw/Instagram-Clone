@@ -4,18 +4,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Ellipsis, Flag, Pencil, Telescope, Trash2 } from "lucide-react";
+import { Ellipsis, Flag, Pencil, Telescope } from "lucide-react";
+import DeletePostMenuItem from "./DeletePostMenuItem";
 
 type PostItemDropdownMenuProps = {
   postId: number;
   isCreator: boolean;
-  openConfirmDeletePostModal: (postId: number) => void;
 };
 
 const PostItemDropdownMenu: React.FC<PostItemDropdownMenuProps> = ({
   postId,
   isCreator,
-  openConfirmDeletePostModal,
 }) => {
   return (
     <DropdownMenu modal={false}>
@@ -34,12 +33,7 @@ const PostItemDropdownMenu: React.FC<PostItemDropdownMenuProps> = ({
           </DropdownMenuItem>
         ) : null}
         {isCreator ? (
-          <DropdownMenuItem
-            className="font-semibold hover:!text-red-800 text-red-600"
-            onClick={() => openConfirmDeletePostModal(postId)}
-          >
-            <Trash2 className="w-[1.125rem] h-[1.125rem] mr-2" /> Delete
-          </DropdownMenuItem>
+          <DeletePostMenuItem postId={postId} />
         ) : (
           <DropdownMenuItem className="font-semibold hover:!text-red-800 text-red-600">
             <Flag className="w-[1.125rem] h-[1.125rem] mr-2" /> Report

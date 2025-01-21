@@ -13,9 +13,8 @@ import { useUserStore } from "@/store/user/useUserStore";
 
 export type PostProps = {
   post: InstaPost;
-  openConfirmDeletePostModal: (postId: number) => void;
 };
-const PostItem = ({ post, openConfirmDeletePostModal }: PostProps) => {
+const PostItem = ({ post }: PostProps) => {
   const avatarFallbackText = post.creator.username[0].toUpperCase();
   const createdTimeAgo = getCreatedTimeAgo(post.createdAt);
   const { user } = useUserStore();
@@ -45,11 +44,7 @@ const PostItem = ({ post, openConfirmDeletePostModal }: PostProps) => {
           </div>
         </div>
         <div className="ml-auto">
-          <PostItemDropdownMenu
-            postId={postId}
-            isCreator={isCreator}
-            openConfirmDeletePostModal={openConfirmDeletePostModal}
-          />
+          <PostItemDropdownMenu postId={postId} isCreator={isCreator} />
         </div>
       </div>
       {/* image */}
