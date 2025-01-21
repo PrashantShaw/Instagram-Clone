@@ -13,13 +13,15 @@ import { useUserStore } from "@/store/user/useUserStore";
 
 export type PostProps = {
   post: InstaPost;
+  openConfirmDeletePostModal: (postId: number) => void;
 };
-const PostItem = ({ post }: PostProps) => {
+const PostItem = ({ post, openConfirmDeletePostModal }: PostProps) => {
   const avatarFallbackText = post.creator.username[0].toUpperCase();
   const createdTimeAgo = getCreatedTimeAgo(post.createdAt);
   const { user } = useUserStore();
   const loggedInUserId = Number(user?.uid);
   const isLiked = post.likes.some((like) => like.userId === loggedInUserId);
+  const isCreator = post.creatorId === loggedInUserId;
   const postId = post.id;
   const totalLikes = post.likes.length;
   const totalComments = post.comments.length;
@@ -43,7 +45,11 @@ const PostItem = ({ post }: PostProps) => {
           </div>
         </div>
         <div className="ml-auto">
-          <PostItemDropdownMenu postId={postId} />
+          <PostItemDropdownMenu
+            postId={postId}
+            isCreator={isCreator}
+            openConfirmDeletePostModal={openConfirmDeletePostModal}
+          />
         </div>
       </div>
       {/* image */}

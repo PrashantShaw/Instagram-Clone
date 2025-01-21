@@ -1,38 +1,50 @@
-"use client";
-import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Ellipsis } from "lucide-react";
-import { usePostsStore } from "@/store/posts/usePostsStore";
+import { Ellipsis, Flag, Pencil, Telescope, Trash2 } from "lucide-react";
 
 type PostItemDropdownMenuProps = {
   postId: number;
+  isCreator: boolean;
+  openConfirmDeletePostModal: (postId: number) => void;
 };
 
 const PostItemDropdownMenu: React.FC<PostItemDropdownMenuProps> = ({
   postId,
+  isCreator,
+  openConfirmDeletePostModal,
 }) => {
-  const { deletePost } = usePostsStore();
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger>
         <Ellipsis size={20} />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
         {/* <DropdownMenuSeparator /> */}
-        <DropdownMenuItem>View</DropdownMenuItem>
-        <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem
-          className="font-semibold hover:!text-red-800 text-red-600"
-          onClick={() => deletePost(postId)}
-        >
-          Delete
+        <DropdownMenuItem>
+          <Telescope className="w-[1.125rem] h-[1.125rem] mr-2" /> View
         </DropdownMenuItem>
+        {isCreator ? (
+          <DropdownMenuItem>
+            <Pencil className="w-[1.125rem] h-[1.125rem] mr-2" /> Edit
+          </DropdownMenuItem>
+        ) : null}
+        {isCreator ? (
+          <DropdownMenuItem
+            className="font-semibold hover:!text-red-800 text-red-600"
+            onClick={() => openConfirmDeletePostModal(postId)}
+          >
+            <Trash2 className="w-[1.125rem] h-[1.125rem] mr-2" /> Delete
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem className="font-semibold hover:!text-red-800 text-red-600">
+            <Flag className="w-[1.125rem] h-[1.125rem] mr-2" /> Report
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
