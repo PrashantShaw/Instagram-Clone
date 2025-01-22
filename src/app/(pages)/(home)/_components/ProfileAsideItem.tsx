@@ -1,7 +1,7 @@
 // import { useUserStore } from "@/store/user/useUserStore";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { auth } from "@/auth";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const ProfileAsideItem = async () => {
   const session = await auth();
@@ -13,7 +13,7 @@ export const ProfileAsideItem = async () => {
           <Avatar className="w-11 h-11 group-hover:scale-[105%] transition-all">
             <AvatarImage src="https://github.com/shadcn.pngg" />
             <AvatarFallback className=" bg-secondary font-semibold text-secondary-foreground">
-              P
+              {user.username[0].toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div className="">

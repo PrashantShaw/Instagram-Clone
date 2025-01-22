@@ -1,6 +1,5 @@
 import { InstaPost } from "@/store/posts/usePostsStore";
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getCreatedTimeAgo } from "@/lib/utils";
 import Image from "next/image";
 import { LikeButton } from "./LikeButton";
@@ -10,6 +9,7 @@ import { Bookmark, MessageCircle, Send } from "lucide-react";
 import Link from "next/link";
 import CommentForm from "./CommentForm";
 import { useUserStore } from "@/store/user/useUserStore";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export type PostProps = {
   post: InstaPost;

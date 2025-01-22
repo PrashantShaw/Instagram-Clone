@@ -1,4 +1,3 @@
-import SignupForm from "@/components/auth/SignupForm";
 import Instagram from "@/components/common/Instagram";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +11,7 @@ import Link from "next/link";
 import React from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import SignupForm from "../_components/SignupForm";
 
 const page = () => {
   return (

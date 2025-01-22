@@ -10,8 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
 import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
 
 const PostsWrapper = () => {
   const { posts } = usePostsStore();

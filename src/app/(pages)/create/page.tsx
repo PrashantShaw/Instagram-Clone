@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { CreateFeedForm } from "@/components/create/CreateFeedForm";
+import { CreateFeedForm } from "@/app/(pages)/create/_components/CreateFeedForm";
 import React from "react";
 
 const page = async () => {

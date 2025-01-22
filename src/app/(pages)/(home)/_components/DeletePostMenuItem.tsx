@@ -1,7 +1,7 @@
 "use client";
 
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { usePostsStore } from "@/store/posts/usePostsStore";
-import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { Trash2 } from "lucide-react";
 
 const DeletePostMenuItem = ({ postId }: { postId: number }) => {
