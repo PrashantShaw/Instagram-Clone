@@ -9,13 +9,13 @@ const TopbarLinks = () => {
   return (
     <div className="flex items-center gap-3">
       {TOPBAR_LINKS.map((link, idx) => (
-        <TopbarLink key={idx} link={link} />
+        <IconLink key={idx} link={link} />
       ))}
     </div>
   );
 };
 
-export const TopbarLink = ({ link }: { link: NavLink }) => {
+export const IconLink = ({ link }: { link: NavLink }) => {
   const pathname = usePathname();
   const isActive = link.href === pathname;
 

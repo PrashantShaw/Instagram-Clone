@@ -9,7 +9,7 @@ const TopBar = () => {
         <div className="">
           <Instagram width={102} />
         </div>
-        <div className="border">
+        <div className="">
           <TopbarLinks />
         </div>
       </div>

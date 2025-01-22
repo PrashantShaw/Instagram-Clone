@@ -15,8 +15,14 @@ import { RiAddBoxFill, RiAddBoxLine, RiSendPlaneFill } from "react-icons/ri";
 export const PROFILE_LINK = {
   label: "Profile",
   href: "/profile",
-  icon: FaUser,
-  iconSolid: FaRegUser,
+  icon: FaRegUser,
+  iconSolid: FaUser,
+};
+export const SETTINGS_LINK = {
+  label: "Settings",
+  href: "/settings",
+  icon: IoSettingsOutline,
+  iconSolid: IoSettingsSharp,
 };
 
 export const NAV_LINKS = [
