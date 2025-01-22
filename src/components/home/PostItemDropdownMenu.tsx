@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Ellipsis, Flag, Pencil, Telescope } from "lucide-react";
+import { Ellipsis, Flag, Link, Pencil, Telescope } from "lucide-react";
 import DeletePostMenuItem from "./DeletePostMenuItem";
 
 type PostItemDropdownMenuProps = {
@@ -22,13 +22,14 @@ const PostItemDropdownMenu: React.FC<PostItemDropdownMenuProps> = ({
         <Ellipsis size={20} />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-        {/* <DropdownMenuSeparator /> */}
-        <DropdownMenuItem>
-          <Telescope className="w-[1.125rem] h-[1.125rem] mr-2" /> View
+        <DropdownMenuItem onClick={() => {}}>
+          <Telescope className="w-[1.125rem] h-[1.125rem] mr-2" /> Go to post
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => {}}>
+          <Link className="w-[1.125rem] h-[1.125rem] mr-2" /> Copy link
         </DropdownMenuItem>
         {isCreator ? (
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => {}}>
             <Pencil className="w-[1.125rem] h-[1.125rem] mr-2" /> Edit
           </DropdownMenuItem>
         ) : null}

@@ -11,7 +11,7 @@ import { ProfileAsideItem } from "./ProfileAsideItem";
 
 const Aside = () => {
   return (
-    <div className="flex-grow max-w-[20rem] pt-10 flex flex-col items-center px-4">
+    <div className="flex-grow max-w-[20rem] pt-10 hidden lg:flex flex-col items-center px-4">
       <div className=" w-full space-y-6">
         {/* prifile */}
         <ProfileAsideItem />

@@ -64,7 +64,7 @@ const DeletePostModal = () => {
     setPostIdToDelete(null);
     setOpen(false);
   }, [setPostIdToDelete]);
-  // Cute robo in the middle of nowhere, maybe wondering which way to go.. Can you guys help him out??
+
   const onOpenChange = useCallback(
     (state: boolean) => {
       setPostIdToDelete(null);
