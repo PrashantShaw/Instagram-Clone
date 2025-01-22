@@ -32,12 +32,6 @@ const NavItem = ({ link }: NavItemProps) => {
   return (
     <Link href={link.href}>
       <div className="flex items-center gap-4 hover:bg-secondary rounded-md px-2 py-3 transition-all group">
-        {/* <link.icon
-          className={clsx(
-            "group-hover:scale-[105%]",
-            isActive ? "scale-105" : ""
-          )}
-        /> */}
         {isActive ? (
           <link.iconSolid className="text-2xl" />
         ) : (

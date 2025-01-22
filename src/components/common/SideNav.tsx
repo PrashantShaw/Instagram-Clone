@@ -5,7 +5,7 @@ import Instagram from "./Instagram";
 
 const SideNav = () => {
   return (
-    <div className="border-r h-screen w-full max-w-[15.25rem] p-4 z-10">
+    <div className="border-r h-screen w-full max-w-[15.25rem] p-4 z-10 hidden md:block">
       <div className="flex flex-col h-full">
         {/* logo */}
         <div className="py-4 px-2">

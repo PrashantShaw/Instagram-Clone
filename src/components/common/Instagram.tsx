@@ -7,7 +7,7 @@ import instagramDark from "@public/images/common/instagram_dark.png";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 
-const Instagram = () => {
+const Instagram = ({ width = 110 }: { width?: number }) => {
   const { theme } = useTheme();
   const [instagramImage, setInstagramImage] =
     useState<StaticImageData>(instagramLight);
@@ -16,7 +16,7 @@ const Instagram = () => {
   }, [theme]);
   return (
     <Link href={"/"} className="">
-      <Image src={instagramImage} alt="instagram text logo" width={110} />
+      <Image src={instagramImage} alt="instagram text logo" width={width} />
     </Link>
   );
 };

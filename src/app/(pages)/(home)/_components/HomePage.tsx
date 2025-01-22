@@ -21,7 +21,7 @@ const HomePage = () => {
 };
 
 const PostsFalbback = () => (
-  <div className="flex-grow max-w-[40rem] pt-8 flex flex-col items-center">
+  <div className="flex-grow md:max-w-[40rem] pt-16 md:pt-8 flex flex-col items-center">
     <PostItemSkeleton />
     <PostItemSkeleton />
     <PostItemSkeleton />
