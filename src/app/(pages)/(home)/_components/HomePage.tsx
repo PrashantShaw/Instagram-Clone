@@ -3,7 +3,6 @@ import Aside from "./Aside";
 import PostItemSkeleton from "@/components/common/skeletons/PostItemSkeleton";
 import Posts from "./Posts";
 
-// TODO: try to make this app responsive
 // TODO: add a page to view a particular post
 
 const HomePage = () => {

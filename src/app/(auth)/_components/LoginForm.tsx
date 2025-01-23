@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
 import { credentialsUserLogin } from "@/lib/actions/auth.actions";
-import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginFormData, loginSchemaZ } from "@/lib/constants/definitions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { ControllerInput } from "../common/ControllerInput";
 import { LoaderCircle } from "lucide-react";
+import { ControllerInput } from "@/components/common/ControllerInput";
+import { Button } from "@/components/ui/button";
 
 const LoginForm = () => {
   const router = useRouter();
