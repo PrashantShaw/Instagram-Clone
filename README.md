@@ -1,2 +1,2 @@
-## Getting Started
+## Instagram Clone
 a modern social media app inspired by Instagram, enabling users to share photos, explore content, and connect with others seamlessly. The app includes features such as photo uploads with captions, real-time engagement through likes and comments, user profiles with customizable bios, and a dynamic feed to stay updated with posts. Designed with a responsive interface and smooth navigation, it ensures an engaging user experience while fostering social connections.
