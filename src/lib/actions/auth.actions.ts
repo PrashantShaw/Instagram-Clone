@@ -78,9 +78,10 @@ export const createUser = async (formData: SignupFormData) => {
         };
       }
     }
+    console.error("Server Error: Failed to Signup!", error);
     return {
       success: false,
-      error: "Server Error: Failed to Signup -",
+      error: "Server Error: Failed to Signup!",
       data: null,
     };
   }
@@ -131,6 +132,7 @@ export const credentialsUserLogin = async (formData: LoginFormData) => {
           };
       }
     }
+    console.error("Server Error: Failed to Login!", error);
     return {
       success: false,
       error: "Server Error: Failed to Login!",
