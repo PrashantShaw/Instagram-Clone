@@ -52,3 +52,16 @@ export const getFormDataFromObject = <FD>(feedData: FD): FormData => {
   }
   return formData;
 };
+
+export const getPublicIdFromImageUrl = (imageUrl: string) => {
+  // eg. imageUrl = 'https://res.cloudinary.com/dlq9jii4d/image/upload/v1737913964/InstagramCloneV2/1-1737913962967-flower.jpg'
+  const publicId = imageUrl
+    .split("/")
+    .slice(-2)
+    .join("/")
+    .split(".")
+    .slice(0, -1)
+    .join("."); // InstagramCloneV2/1-1737913962967-flower
+
+  return publicId;
+};

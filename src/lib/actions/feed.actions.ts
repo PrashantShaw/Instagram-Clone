@@ -1,10 +1,11 @@
 "use server";
+
 import { db } from "@/db/prisma.db";
 import fs from "fs/promises";
 import { revalidatePath } from "next/cache";
-// import { redirect } from "next/navigation";
 import { z } from "zod";
 import { sleep } from "../utils";
+import { uploadImageToCloudinaryV2 } from "../helpers/cloudinary";
 
 const fileSchemaZ = z.instanceof(File, { message: "Required!" });
 const imageSchemaZ = fileSchemaZ.refine(
@@ -16,7 +17,10 @@ const feedSchemaZ = z.object({
   creatorId: z.coerce.number().min(1, { message: "creator Id is Required!" }),
 });
 
+export type FeedFormData = z.infer<typeof feedSchemaZ>;
+
 export const createImage = async (image: File): Promise<string> => {
+  image;
   await fs.mkdir("public/feedImages", { recursive: true });
   const imagePath = `/feedImages/${crypto.randomUUID()}-${image.name}`;
   const imageArrayBuffer = await image.arrayBuffer();
@@ -25,7 +29,6 @@ export const createImage = async (image: File): Promise<string> => {
 
   return imagePath;
 };
-export type FeedFormData = z.infer<typeof feedSchemaZ>;
 
 export const createFeed = async (formData: FormData) => {
   const parsedFormData = Object.fromEntries(formData.entries());
@@ -42,8 +45,19 @@ export const createFeed = async (formData: FormData) => {
   }
 
   const data = result.data;
-  const imagePath = await createImage(data.image);
+  // const { success, imagePath } = await uploadImage(data.image, data.creatorId);
+  const { success, imagePath } = await uploadImageToCloudinaryV2(
+    data.image,
+    data.creatorId
+  );
 
+  if (!success || !imagePath) {
+    return {
+      success: false,
+      error: "Error Uploading Image!",
+      data: null,
+    };
+  }
   try {
     // FIXME: remove sleep() before prod deployment
     await sleep(1000);

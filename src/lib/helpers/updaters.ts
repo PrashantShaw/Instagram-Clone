@@ -1,6 +1,7 @@
 "use server";
 import { db } from "@/db/prisma.db";
-import fs from "fs/promises";
+import { deleteImageFromCloudinaryV2 } from "./cloudinary";
+import { getPublicIdFromImageUrl } from "../utils";
 
 export const updateLike = async (
   postId: number,
@@ -53,9 +54,12 @@ export const deletePost = async (postId: number, imagePath: string) => {
         id: postId,
       },
     });
-    await fs.rm(`public${imagePath}`);
+    const publicId = getPublicIdFromImageUrl(imagePath);
+    const { success } = await deleteImageFromCloudinaryV2(publicId);
 
-    console.log("Post deleted successfully", res);
+    if (!success) {
+      throw new Error("Failed to delete the image!");
+    }
     return {
       success: true,
       data: res,
