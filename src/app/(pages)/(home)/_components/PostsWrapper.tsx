@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
+import { LoaderCircle } from "lucide-react";
 
 const PostsWrapper = () => {
   const { posts } = usePostsStore();
@@ -25,16 +26,21 @@ const PostsWrapper = () => {
     </div>
   );
 };
-
+// TODO: add loading indicator on delete button
 const DeletePostModal = () => {
   const { deletePost, postIdToDelete, setPostIdToDelete } = usePostsStore();
   const [open, setOpen] = useState(false); // open the dialog if 'postIdToDelete' is set
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setOpen(postIdToDelete !== null);
   }, [postIdToDelete]);
 
-  console.log("DeletePostModal :: postIdToDelete ", postIdToDelete, open);
+  const handleCloseDialog = useCallback(() => {
+    setOpen(false);
+    setIsLoading(false);
+    setPostIdToDelete(null);
+  }, [setPostIdToDelete]);
 
   const handleDeletePost = useCallback(async () => {
     if (postIdToDelete === null) {
@@ -45,6 +51,7 @@ const DeletePostModal = () => {
       return;
     }
     try {
+      setIsLoading(true);
       await deletePost(postIdToDelete);
       toast.success("Post deleted successfully!", {
         position: "bottom-right",
@@ -55,15 +62,9 @@ const DeletePostModal = () => {
         position: "bottom-right",
       });
     } finally {
-      setOpen(false);
-      setPostIdToDelete(null);
+      handleCloseDialog();
     }
-  }, [deletePost, postIdToDelete, setPostIdToDelete]);
-
-  const handleCloseDialog = useCallback(() => {
-    setPostIdToDelete(null);
-    setOpen(false);
-  }, [setPostIdToDelete]);
+  }, [deletePost, handleCloseDialog, postIdToDelete]);
 
   const onOpenChange = useCallback(
     (state: boolean) => {
@@ -88,8 +89,15 @@ const DeletePostModal = () => {
               type="button"
               variant="destructive"
               onClick={handleDeletePost}
+              disabled={isLoading}
             >
-              Delete
+              {isLoading ? (
+                <>
+                  <LoaderCircle className="animate-spin mr-1" /> Deleting...
+                </>
+              ) : (
+                <>Delete</>
+              )}
             </Button>
             <Button
               type="button"
