@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { credentialsUserLogin } from "@/lib/actions/auth.actions";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import { ControllerInput } from "@/components/common/ControllerInput";
 import { Button } from "@/components/ui/button";
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false); // redirect takes longer, thats why this loading state
   const router = useRouter();
   const {
     handleSubmit,
@@ -28,6 +29,7 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<LoginFormData> = async (formData) => {
     // console.log("Signup form data ::", formData);
     try {
+      setLoading(true);
       const { success, error } = await credentialsUserLogin(formData);
       if (success) {
         toast.success("Welcome!", {
@@ -36,12 +38,14 @@ const LoginForm = () => {
         });
         router.replace("/");
       } else {
+        setLoading(false);
         toast.error(JSON.stringify(error), {
           position: "top-right",
           duration: 5000,
         });
       }
     } catch (error) {
+      setLoading(false);
       toast.error("Failed to Login!", {
         position: "top-right",
         duration: 5000,
@@ -68,7 +72,7 @@ const LoginForm = () => {
             label="Password"
           />
           <div className="mt-2">
-            <LoginButton isSubmitting={isSubmitting} />
+            <LoginButton isSubmitting={isSubmitting || loading} />
           </div>
         </div>
       </form>

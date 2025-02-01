@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createUser } from "@/lib/actions/auth.actions";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -11,7 +11,7 @@ import { ControllerInput } from "@/components/common/ControllerInput";
 import { Button } from "@/components/ui/button";
 
 const SignupForm = () => {
-  // const [_errors, formAction] = useFormState(createUser, {});
+  const [loading, setLoading] = useState(false); // redirect takes longer, thats why this loading state
   const router = useRouter();
   const {
     handleSubmit,
@@ -31,6 +31,7 @@ const SignupForm = () => {
   const onSubmit: SubmitHandler<SignupFormData> = async (formData) => {
     // console.log("Signup form data ::", formData);
     try {
+      setLoading(true);
       const { success, error } = await createUser(formData);
       if (success) {
         toast.success("User successfully Created!", {
@@ -39,12 +40,14 @@ const SignupForm = () => {
         });
         router.replace("/");
       } else {
+        setLoading(false);
         toast.error(JSON.stringify(error), {
           position: "top-right",
           duration: 5000,
         });
       }
     } catch (error) {
+      setLoading(false);
       toast.error("Failed to Create User!", {
         position: "top-right",
         duration: 5000,
@@ -85,7 +88,7 @@ const SignupForm = () => {
             label="Confirm Password"
           />
           <div className="mt-2">
-            <CreateAccountButton isSubmitting={isSubmitting} />
+            <CreateAccountButton isSubmitting={isSubmitting || loading} />
           </div>
         </div>
       </form>

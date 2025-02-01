@@ -26,7 +26,6 @@ const PostsWrapper = () => {
     </div>
   );
 };
-// TODO: add loading indicator on delete button
 const DeletePostModal = () => {
   const { deletePost, postIdToDelete, setPostIdToDelete } = usePostsStore();
   const [open, setOpen] = useState(false); // open the dialog if 'postIdToDelete' is set
