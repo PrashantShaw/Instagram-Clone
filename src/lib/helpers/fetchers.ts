@@ -2,6 +2,7 @@ import { db } from "@/db/prisma.db";
 import { sleep } from "../utils";
 import { LoginResponse } from "@/app/api/v1/login/route";
 
+// TODO: add pagination/infitnite scroll
 export const fetchPosts = async () => {
   try {
     // FIXME: remove sleep() before prod deployment

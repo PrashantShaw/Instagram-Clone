@@ -1,7 +1,6 @@
 import { InstaPost } from "@/store/posts/usePostsStore";
 import React from "react";
 import { getCreatedTimeAgo } from "@/lib/utils";
-import Image from "next/image";
 import { LikeButton } from "./LikeButton";
 import PostItemDropdownMenu from "./PostItemDropdownMenu";
 import FollowButton from "@/components/common/FollowButton";
@@ -10,6 +9,7 @@ import Link from "next/link";
 import CommentForm from "./CommentForm";
 import { useUserStore } from "@/store/user/useUserStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import PostItemImage from "./PostItemImage";
 
 export type PostProps = {
   post: InstaPost;
@@ -47,15 +47,11 @@ const PostItem = ({ post }: PostProps) => {
           <PostItemDropdownMenu postId={postId} isCreator={isCreator} />
         </div>
       </div>
-      {/* image */}
-      <div className="flex border-t border-b sm:rounded overflow-hidden">
-        <Image
-          src={post.imagePath}
-          alt="Post Image"
-          width={5000}
-          height={5000}
-        />
-      </div>
+      <PostItemImage
+        imagePath={post.imagePath}
+        userId={loggedInUserId}
+        postId={postId}
+      />
       {/* content */}
       <div className="py-3 px-4 sm:px-0 space-y-3">
         <div className="flex items-center gap-4">

@@ -38,7 +38,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   trustHost: true,
   session: {
-    maxAge: 60 * 30, // 30 mins
+    maxAge: 60 * 60 * 24 * 2, // 2 days
     strategy: "jwt",
     updateAge: 60 * 10,
   },

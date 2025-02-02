@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import Aside from "./Aside";
 import PostItemSkeleton from "@/components/common/skeletons/PostItemSkeleton";
-import Posts from "./Posts";
+import Posts from "./post/Posts";
 
 // TODO: add a page to view a particular post
 
