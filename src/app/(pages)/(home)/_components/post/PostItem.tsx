@@ -10,11 +10,13 @@ import CommentForm from "./CommentForm";
 import { useUserStore } from "@/store/user/useUserStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PostItemImage from "./PostItemImage";
+import clsx from "clsx";
 
 export type PostProps = {
   post: InstaPost;
+  fullSize?: boolean;
 };
-const PostItem = ({ post }: PostProps) => {
+const PostItem = ({ post, fullSize = false }: PostProps) => {
   const avatarFallbackText = post.creator.username[0].toUpperCase();
   const createdTimeAgo = getCreatedTimeAgo(post.createdAt);
   const { user } = useUserStore();
@@ -25,7 +27,12 @@ const PostItem = ({ post }: PostProps) => {
   const totalLikes = post.likes.length;
   const totalComments = post.comments.length;
   return (
-    <div className="max-w-[29.375rem] border-b text-sm w-full py-2">
+    <div
+      className={clsx(
+        "max-w-[29.375rem] border-b text-sm w-full py-2",
+        fullSize ? "border" : ""
+      )}
+    >
       {/* header */}
       <div className="flex items-center gap-2 py-3 px-4 sm:px-0">
         <div className="flex items-center gap-2">

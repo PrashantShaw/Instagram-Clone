@@ -11,7 +11,6 @@ import {
   signupSchemaZ,
 } from "@/lib/constants/definitions";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { sleep } from "../utils";
 
 export const createUser = async (formData: SignupFormData) => {
   const result = signupSchemaZ.safeParse(formData);
@@ -29,8 +28,6 @@ export const createUser = async (formData: SignupFormData) => {
   const data = result.data;
 
   try {
-    // FIXME: remove sleep() before prod deployment
-    await sleep(2000);
     const user = await db.user.findUnique({
       where: { email: data.email },
       select: {
@@ -101,8 +98,6 @@ export const credentialsUserLogin = async (formData: LoginFormData) => {
   }
 
   try {
-    // FIXME: remove sleep() before prod deployment
-    await sleep(1000);
     await signIn("credentials", {
       ...result.data,
       redirect: false,

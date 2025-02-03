@@ -12,7 +12,7 @@ type PostItemImageProps = {
 };
 const PostItemImage = ({ imagePath, userId, postId }: PostItemImageProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
-  const LIKE_ANIMATION_DURATION = 900;
+  const LIKE_ANIMATION_DURATION = 900; // check tailwin.config.ts file 'animation' section
   const { addLikePost } = usePostsStore();
   const handleToggleLike = () => {
     if (isAnimating) return;
@@ -29,12 +29,10 @@ const PostItemImage = ({ imagePath, userId, postId }: PostItemImageProps) => {
     >
       <Image src={imagePath} alt="Post Image" width={5000} height={5000} />
       {isAnimating ? (
-        // <div className="grid place-items-center">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-doubleTapLikeRiseUp">
           <FaHeart className=" text-[#ff3040] w-32 h-32 animate-doubleTapLikeBounceIn" />
         </div>
-      ) : // </div>
-      null}
+      ) : null}
     </div>
   );
 };

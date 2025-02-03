@@ -60,24 +60,6 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
-        bounceInAndRiseUp: {
-          "0%": {
-            opacity: "0",
-            transform: "scale(0.2)",
-          },
-          "10%": {
-            opacity: "1",
-            transform: "scale(1.4)",
-          },
-          "20%": {
-            transform: "scale(1) rotate(20deg)",
-          },
-          "100%": {
-            opacity: "0",
-            top: "-100%",
-            left: "50%",
-          },
-        },
         bounceIn: {
           "0%": {
             opacity: "0",
@@ -99,7 +81,6 @@ const config: Config = {
         },
       },
       animation: {
-        doubleTapLike: "bounceInAndRiseUp 2s ease-out",
         doubleTapLikeBounceIn: "bounceIn 0.5s ease-out",
         doubleTapLikeRiseUp: "riseUp 0.5s 0.5s ease-in-out",
       },

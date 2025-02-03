@@ -4,7 +4,6 @@ import { db } from "@/db/prisma.db";
 import fs from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { sleep } from "../utils";
 import { uploadImageToCloudinaryV2 } from "../helpers/cloudinary";
 
 const fileSchemaZ = z.instanceof(File, { message: "Required!" });
@@ -59,8 +58,6 @@ export const createFeed = async (formData: FormData) => {
     };
   }
   try {
-    // FIXME: remove sleep() before prod deployment
-    await sleep(1000);
     const createdFeed = await db.post.create({
       data: {
         imagePath,
