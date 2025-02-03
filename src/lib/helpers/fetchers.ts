@@ -2,28 +2,6 @@ import { db } from "@/db/prisma.db";
 import { LoginResponse } from "@/app/api/v1/login/route";
 
 // TODO: add pagination/infitnite scroll
-export const fetchPosts = async () => {
-  try {
-    const posts = await db.post.findMany({
-      include: { creator: true, comments: true, likes: true },
-      orderBy: { createdAt: "desc" },
-    });
-    // console.log("posts ::", posts);
-    return {
-      data: posts,
-      success: true,
-      error: null,
-    };
-  } catch (error) {
-    console.log("Error fetching posts ::", error);
-    return {
-      data: null,
-      success: false,
-      error: "Error fetching posts!",
-    };
-  }
-};
-
 export const authenticateCredentialsLogin = async (
   email: string,
   password: string
@@ -51,6 +29,50 @@ export const authenticateCredentialsLogin = async (
       success: false,
       error: "Failed to login",
       data: null,
+    };
+  }
+};
+
+export const fetchPosts = async () => {
+  try {
+    const posts = await db.post.findMany({
+      include: { creator: true, comments: true, likes: true },
+      orderBy: { createdAt: "desc" },
+    });
+    // console.log("posts ::", posts);
+    return {
+      data: posts,
+      success: true,
+      error: null,
+    };
+  } catch (error) {
+    console.log("Error fetching posts ::", error);
+    return {
+      data: null,
+      success: false,
+      error: "Error fetching posts!",
+    };
+  }
+};
+
+export const fetchPostById = async (postId: number) => {
+  try {
+    const post = await db.post.findUnique({
+      include: { creator: true, comments: true, likes: true },
+      where: { id: postId },
+    });
+    // console.log("post ::", post);
+    return {
+      data: post,
+      success: true,
+      error: null,
+    };
+  } catch (error) {
+    console.log("Error fetching post ::", error);
+    return {
+      data: null,
+      success: false,
+      error: "Error fetching post!",
     };
   }
 };

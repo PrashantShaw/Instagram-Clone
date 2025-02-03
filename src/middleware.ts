@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const authRoutes = ["/signup", "/login"];
 // by default all routes will be protected, only add the unprotected routes
-const unprotectedRoutes = ["/post/", ...authRoutes];
+const unprotectedRoutes = ["/posts/", ...authRoutes];
 const FEEDS_PAGE_PATHNAME = "/";
 
 export default middleware((request) => {

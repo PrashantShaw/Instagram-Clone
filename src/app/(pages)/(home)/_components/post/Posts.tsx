@@ -8,8 +8,12 @@ const Posts = async () => {
   const { success, data: posts, error } = await fetchPosts();
   const session = await auth();
 
-  if (success === false) {
-    return <p className="text-red-600 text-center font-semibold">{error}</p>;
+  if (!success) {
+    return (
+      <div className="flex-grow md:max-w-[40rem] pt-12 pb-20 md:py-8 flex flex-col items-center">
+        <p className="text-red-600 text-center font-semibold">{error}</p>
+      </div>
+    );
   }
 
   return (

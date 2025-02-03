@@ -25,6 +25,7 @@ type PostsStoreActions = {
     setPostIdToDelete: PostsStoreState["postIdToDelete"]
   ) => void;
   addPost: (post: InstaPost) => void;
+  // getPostItem: (postId: number) => Promise<InstaPost>;
   deletePost: (postId: number) => Promise<void>;
   addLikePost: (postId: number, userId: number) => Promise<void>;
   removeLikePost: (postId: number, userId: number) => Promise<void>;
@@ -47,12 +48,15 @@ export type SetPostStore = {
   ): void;
 };
 
+export type GetPostStore = () => PostsStore;
+// TODO: add getPostItem, serach within the store or fetch it and add it to the store.
 export const usePostsStore = create<PostsStore>()((set) => ({
   posts: [],
   postIdToDelete: null,
   setPosts: (posts) => set({ posts }),
   setPostIdToDelete: (postIdToDelete) => set({ postIdToDelete }),
   addPost: (post) => set((state) => ({ posts: [...state.posts, post] })),
+  // getPostItem: (postId) => getPostAction(postId, set, get),
   deletePost: (postId) => deletePostAction(postId, set),
   addLikePost: (postId, userId) => addLikePostAction(postId, userId, set),
   removeLikePost: (postId, userId) => removeLikePostAction(postId, userId, set),
