@@ -35,7 +35,7 @@ const PostItemWithData = ({ id }: { id: number }) => {
         Post not found!
       </p>
     );
-  return <PostItem post={post} />;
+  return <PostItem post={post} fullSize />;
 };
 
 export default PostItemWrapper;

@@ -3,7 +3,7 @@ import PostItemFull from "./_components/PostItemFull";
 
 const page = async ({ params }: { params: { id: string } }) => {
   return (
-    <div>
+    <div className="flex justify-center py-10">
       <Suspense fallback={<p>Loading...</p>}>
         <PostItemFull postId={Number(params.id)} />
       </Suspense>

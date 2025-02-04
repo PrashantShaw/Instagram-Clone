@@ -7,10 +7,16 @@ import { FaHeart } from "react-icons/fa";
 
 type PostItemImageProps = {
   imagePath: string;
+  isLiked: boolean;
   userId: number;
   postId: number;
 };
-const PostItemImage = ({ imagePath, userId, postId }: PostItemImageProps) => {
+const PostItemImage = ({
+  imagePath,
+  isLiked,
+  userId,
+  postId,
+}: PostItemImageProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const LIKE_ANIMATION_DURATION = 900; // check tailwin.config.ts file 'animation' section
   const { addLikePost } = usePostsStore();
@@ -18,7 +24,7 @@ const PostItemImage = ({ imagePath, userId, postId }: PostItemImageProps) => {
     if (isAnimating) return;
 
     setIsAnimating(true);
-    addLikePost(postId, userId);
+    isLiked ? null : addLikePost(postId, userId);
 
     setTimeout(() => setIsAnimating(false), LIKE_ANIMATION_DURATION);
   };

@@ -18,10 +18,12 @@ const PostsWrapper = () => {
   const { posts } = usePostsStore();
 
   return (
-    <div className="flex-grow md:max-w-[40rem] pt-12 pb-20 md:py-8 flex flex-col items-center">
-      {posts.map((post) => (
-        <PostItem key={post.id} post={post} />
-      ))}
+    <div className="flex-grow md:max-w-[40rem] pt-12 pb-20 md:py-8 flex justify-center">
+      <div className="max-w-[29.375rem] flex flex-col items-center">
+        {posts.map((post) => (
+          <PostItem key={post.id} post={post} />
+        ))}
+      </div>
       <DeletePostModal />
     </div>
   );
