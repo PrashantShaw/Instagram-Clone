@@ -87,3 +87,15 @@ export const authenticateUser = () => {
   }
   return isUser;
 };
+
+export const copyToClipboard = async (text: string) => {
+  let copied = false;
+  if (!window || !window.navigator) {
+    copied = false;
+  } else {
+    await navigator.clipboard.writeText(text);
+    copied = true;
+  }
+
+  return copied;
+};

@@ -13,6 +13,9 @@ import {
 } from "lucide-react";
 import DeletePostMenuItem from "./DeletePostMenuItem";
 import Link from "next/link";
+import { copyToClipboard } from "@/lib/utils";
+import { useCallback } from "react";
+import toast from "react-hot-toast";
 
 type PostItemDropdownMenuProps = {
   postId: number;
@@ -23,6 +26,14 @@ const PostItemDropdownMenu: React.FC<PostItemDropdownMenuProps> = ({
   postId,
   isCreator,
 }) => {
+  const domain = process.env.NEXT_PUBLIC_DOMAIN || "";
+  const fullPostLink = `${domain}/posts/${postId}`;
+  const handleCopyPostLink = useCallback(async () => {
+    const copied = await copyToClipboard(fullPostLink);
+    copied
+      ? toast.success("Post Link Copied!")
+      : toast.error("Failed to copy post link!");
+  }, [fullPostLink]);
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger>
@@ -34,7 +45,7 @@ const PostItemDropdownMenu: React.FC<PostItemDropdownMenuProps> = ({
             <Telescope className="w-[1.125rem] h-[1.125rem] mr-2" /> Go to post
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem onClick={() => {}}>
+        <DropdownMenuItem onClick={handleCopyPostLink}>
           <LinkIcon className="w-[1.125rem] h-[1.125rem] mr-2" /> Copy link
         </DropdownMenuItem>
         {isCreator ? (

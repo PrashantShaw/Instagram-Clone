@@ -4,7 +4,7 @@ import { getCreatedTimeAgo } from "@/lib/utils";
 import { LikeButton } from "./LikeButton";
 import PostItemDropdownMenu from "./PostItemDropdownMenu";
 import FollowButton from "@/components/common/FollowButton";
-import { Bookmark, MessageCircle, Send } from "lucide-react";
+import { Bookmark, Heart, MessageCircle, Send } from "lucide-react";
 import Link from "next/link";
 import CommentForm from "./CommentForm";
 import { useUserStore } from "@/store/user/useUserStore";
@@ -144,27 +144,44 @@ const PostComments = ({ comments, enabled }: PostCommentsProps) => {
   return (
     <div
       className={clsx(
-        "py-2 border-t border-b px-5 overflow-y-scroll hidden h-[14.375rem]",
+        "py-2 border-t border-b px-5 overflow-y-scroll hidden h-full min-h-[14.375rem] max-h-[28.5rem]",
         enabled ? "lg:block" : ""
       )}
     >
-      {/* {comments.map((comment) => (
-        <div key={comment.id} className="py-1">
-          {comment.comment}
+      {comments.length > 0 ? (
+        comments.map((comment) => (
+          <div key={comment.id} className="py-3">
+            <div className="flex items-start gap-3">
+              <Avatar className="w-11 h-11 group-hover:scale-[105%] transition-all">
+                <AvatarImage src="https://github.com/shadcn.pngg" />
+                <AvatarFallback
+                  className={clsx(
+                    "font-semibold text-secondary-foreground text-xs",
+                    "bg-secondary"
+                  )}
+                >
+                  UId-{comment.userId}
+                </AvatarFallback>
+              </Avatar>
+              <div className="">
+                <p className="text-sm font-semibold">{comment.comment}</p>
+                <button>
+                  <p className="text-xs text-muted-foreground">Reply</p>
+                </button>
+              </div>
+              <div className="ml-auto">
+                <Heart className="text-muted-foreground w-4 h-4" />
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div className="p-3">
+          <p className="text-center font-semibold text-muted-foreground">
+            No Comment Yet!
+          </p>
         </div>
-      ))} */}
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
-      <p className="py-1">comment here</p>
+      )}
     </div>
   );
 };
@@ -215,10 +232,12 @@ const PostBody = ({
           {" " + content}
         </p>
       </div>
-      <div className="lg:hidden">
-        <button className="text-muted-foreground">
-          View all {comments.length > 0 ? comments.length : ""} comments
-        </button>
+      <div className={clsx("", fullSize ? "lg:hidden" : "")}>
+        <Link href={`/posts/${postId}`}>
+          <button className="text-muted-foreground">
+            View all {comments.length > 0 ? comments.length : ""} comments
+          </button>
+        </Link>
       </div>
       <CommentForm userId={loggedInUserId} postId={postId} />
     </div>
