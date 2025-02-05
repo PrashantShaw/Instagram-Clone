@@ -1,4 +1,7 @@
+import { auth } from "@/auth";
+import { useUserStore } from "@/store/user/useUserStore";
 import { clsx, type ClassValue } from "clsx";
+import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -64,4 +67,23 @@ export const getPublicIdFromImageUrl = (imageUrl: string) => {
     .join("."); // InstagramCloneV2/1-1737913962967-flower
 
   return publicId;
+};
+
+export const isLoggedIn = async () => {
+  const session = await auth();
+
+  return !!(session && session.user);
+};
+
+export const authenticateUser = () => {
+  const { user } = useUserStore.getState();
+  const isUser = !!user;
+  if (!isUser) {
+    toast("Login to continue!", {
+      icon: "🎁",
+      className: "font-semibold",
+      position: "bottom-right",
+    });
+  }
+  return isUser;
 };

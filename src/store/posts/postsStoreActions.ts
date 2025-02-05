@@ -1,12 +1,14 @@
 import { deletePost, updateLike } from "@/lib/helpers/updaters";
 import { InstaPost, SetPostStore } from "./usePostsStore";
 import { addComment, CommentFormData } from "@/lib/actions/feed.actions";
+import { authenticateUser } from "@/lib/utils";
 
 export const addLikePostAction = async (
   postId: number,
   userId: number,
   set: SetPostStore
 ) => {
+  if (!authenticateUser()) return;
   // 1. optimistic update
   const tempId = Date.now();
   set((state) => ({
@@ -52,6 +54,7 @@ export const removeLikePostAction = async (
   userId: number,
   set: SetPostStore
 ) => {
+  if (!authenticateUser()) return;
   let deletedLike: InstaPost["likes"][0];
   // 1. optimistic update
   set((state) => ({
@@ -88,6 +91,8 @@ export const removeLikePostAction = async (
 };
 
 export const deletePostAction = async (postId: number, set: SetPostStore) => {
+  if (!authenticateUser()) return;
+
   let deletedPost: InstaPost;
   let deletedIdx: number;
 
@@ -126,7 +131,8 @@ export const addCommentPostAction = async (
   commentFormData: CommentFormData,
   set: SetPostStore
 ) => {
-  console.log("CommentFormData ::", commentFormData);
+  if (!authenticateUser()) return;
+
   const { comment } = commentFormData;
   const postId = Number(commentFormData.postId);
   const userId = Number(commentFormData.userId);
@@ -150,7 +156,6 @@ export const addCommentPostAction = async (
   });
 
   const result = await addComment(commentFormData);
-  console.log("db updated", result);
 
   if (result.success) {
     set((state) => {

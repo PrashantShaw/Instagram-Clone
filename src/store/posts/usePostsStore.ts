@@ -25,7 +25,6 @@ type PostsStoreActions = {
     setPostIdToDelete: PostsStoreState["postIdToDelete"]
   ) => void;
   addPost: (post: InstaPost) => void;
-  // getPostItem: (postId: number) => Promise<InstaPost>;
   deletePost: (postId: number) => Promise<void>;
   addLikePost: (postId: number, userId: number) => Promise<void>;
   removeLikePost: (postId: number, userId: number) => Promise<void>;
